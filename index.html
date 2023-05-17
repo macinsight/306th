@@ -96,13 +96,15 @@
 				</button>
 				<div class="collapse navbar-collapse" id="navbartoggler">
 					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-						<a href="#" class="nav-link">Home</a>
-						<a href="#images" class="nav-link">Images</a>
-						<a href="#about" class="nav-link">About us</a>
-						<a href="#units" class="nav-link">Units</a>
+						<a href="#" class="nav-link nav-item">Home</a>
+						<a href="#images" class="nav-item nav-link px-2">Gallery</a>
+						<a href="#about" class="nav-item nav-link px-2">About</a>
+						<a href="#units" class="nav-item nav-link px-2">Units</a>
 					</ul>
 					<div class="d-lg-flex col-lg-3 justify-content-lg-end">
-						<button class="btn btn-info">Discord</button>
+						<a class="icon-link" href="https://discord.gg/D3U3e9seZ7">
+							<button type="submit" class="btn btn-primary"><span class="bi-discord width="48" height="48""></span></button>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -120,20 +122,20 @@
 					enjoyable and fun environment for both newbies and veterans.
 				</p>
 				<div class="d-inline-flex gap-2 mb-5 mt-3	">
-					<a href="#about" class="d-inline-flex align-items-center btn btn-success btn-lg px-4 rounded-pill">Learn
+					<a href="#images" class="d-inline-flex align-items-center btn btn-success btn-lg px-4 rounded-pill">Learn
 						more</a>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- Main content begin -->
-	<section id="about">
-		<div class="container" id="about">
+	<section id="images">
+		<div class="container">
 			<div class="container pt-5">
 				<h1 class="text-center mt-3 text-body-emphasis display-3">Willkommen, Soldat!</h1>
 			</div>
 			<!-- Carousel -->
-			<div class="container min-vh-100" id="carousel">
+			<div class="container h-auto mb-3" id="carousel">
 				<div id="carouselExampleCaptions" class="carousel slide">
 					<div class="carousel-indicators">
 						<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
@@ -208,11 +210,11 @@
 		</div>
 	</section>
 
-	<!-- how-we-operate -->
-	<section id="how-we-operate">
+	<!-- about -->
+	<section id="about" class="pt-5">
 		<div class="container">
-			<h1 class="text-body-emphasis">About us</h1>
 			<div class="row">
+				<h2 class="text-body-emphasis mt-3">About us</h2>
 				<div class="col-12 col-md-6 col-lg-4">
 					<h3>How we operate</h3>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -269,7 +271,7 @@
 				</div>
 				<div class="col-12 col-md-6 col-lg-4">
 					<div class="card">
-						<img src="/assets/img/photo3.jpg" alt="" class="card-img-top">
+						<img src="/assets/img/tank.jpg" alt="" class="card-img-top">
 						<div class="card-body">
 							<h5 class="card-title">Panzer</h5>
 							<p class="card-text">The squad is supported by mechanized infantry.</p>
@@ -291,13 +293,12 @@
 
 	<div class="container" id="footer">
 		<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-			<p class="col-md-4 mb-0 text-body-secondary">&copy; 2023 <a href="//github.com/macinsight"
-					class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover text-body-secondary">macinsight</a>
+			<p class="col-md-4 mb-0 text-body-secondary">&copy; 2023 macinsight <a href="//github.com/macinsight"><span class="bi-github"></span></a>
 			</p>
 			<ul class="nav col-md-5 justify-content-end">
-				<li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
-				<li class="nav-item"><a href="#units" class="nav-link px-2 text-body-secondary">Images</a></li>
-				<li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About us</a></li>
+				<a href="#images" class="nav-item nav-link px-2 text-body-secondary">Gallery</a>
+				<a href="#about" class="nav-item nav-link px-2 text-body-secondary">About</a>
+				<a href="#units" class="nav-item nav-link px-2 text-body-secondary">Units</a>
 				<a href="" class="nav-item nav-link px-2 text-body-secondary">Discord</a>
 				<li class="nav-item"><a href="imprint.html" class="nav-link px-2 text-body-secondary">Imprint</a></li>
 				<a href="//units.arma3.com/unit/306thbrigade" class="nav-item nav-link px-2 text-body-secondary">306th AB on A3
