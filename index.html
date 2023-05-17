@@ -16,7 +16,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 
-<body>
+<body data-bs-spy="scroll" data-bs-target="#navbar">
 	<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
 		<symbol id="check2" viewBox="0 0 16 16">
 			<path
@@ -87,7 +87,7 @@
 
 	<!-- Navbar -->
 	<div class="container sticky-top" id="navbar">
-		<nav class="navbar navbar-expand-lg bg-body-tertiary rounded">
+		<nav class="navbar navbar-expand-lg bg-body-tertiary rounded" id="navigator">
 			<div class="container-fluid">
 				<a class="navbar-brand" href="#">306th Assault Brigade</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbartoggler"
@@ -103,7 +103,7 @@
 					</ul>
 					<div class="d-lg-flex col-lg-3 justify-content-lg-end">
 						<a class="icon-link" href="https://discord.gg/D3U3e9seZ7">
-							<button type="submit" class="btn btn-primary"><span class="bi-discord width="48" height="48""></span></button>
+							<button type="submit" class="btn btn-primary"><span class="bi-discord width=" 48" height="48""></span></button>
 						</a>
 					</div>
 				</div>
@@ -112,204 +112,226 @@
 	</div>
 
 	<!-- Cover -->
-	<div class="container d-flex flex-column w-100 min-vh-100 p-3 mx-auto text-center" id="intro">
-		<div class="container my-5">
-			<div class="p-5 text-center bg-body-tertiary rounded-4">
-				<p class="text-muted fs-4">Welcome to:</p>
-				<h1 class="text-body-emphasis display-4">Your next ArmA 3 unit</h1>
-				<p class="col-lg-8 mx-auto fs-5 text-muted mt-5">
-					The 306th Assault Brigade is a semi-milsim unit for ArmA 3 modeled after the german Bundeswehr. We provide an
-					enjoyable and fun environment for both newbies and veterans.
-				</p>
-				<div class="d-inline-flex gap-2 mb-5 mt-3	">
-					<a href="#images" class="d-inline-flex align-items-center btn btn-success btn-lg px-4 rounded-pill">Learn
-						more</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- Main content begin -->
-	<section id="images">
-		<div class="container">
-			<div class="container pt-5">
-				<h1 class="text-center mt-3 text-body-emphasis display-3">Willkommen, Soldat!</h1>
-			</div>
-			<!-- Carousel -->
-			<div class="container h-auto mb-3" id="carousel">
-				<div id="carouselExampleCaptions" class="carousel slide">
-					<div class="carousel-indicators">
-						<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-							aria-current="true" aria-label="Slide 1"></button>
-						<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-							aria-label="Slide 2"></button>
-						<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-							aria-label="Slide 3"></button>
-						<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
-							aria-label="Slide 4"></button>
-						<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4"
-							aria-label="Slide 5"></button>
-						<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="5"
-							aria-label="Slide 6"></button>
+	<div class=" container d-flex flex-column w-100 min-vh-100 p-3 mx-auto text-center" id="intro">
+									<div class="container my-5">
+										<div class="p-5 text-center bg-body-tertiary rounded-4">
+											<p class="text-muted fs-4">Welcome to:</p>
+											<h1 class="text-body-emphasis display-4">Your next ArmA 3 unit</h1>
+											<p class="col-lg-8 mx-auto fs-5 text-muted mt-5">
+												The 306th Assault Brigade is a semi-milsim unit for ArmA 3 modeled after the german Bundeswehr.
+												We provide an
+												enjoyable and fun environment for both newbies and veterans.
+											</p>
+											<div class="d-inline-flex gap-2 mb-5 mt-3	">
+												<a href="#images"
+													class="d-inline-flex align-items-center btn btn-success btn-lg px-4 rounded-pill">Learn
+													more</a>
+											</div>
+										</div>
+									</div>
 					</div>
-					<div class="carousel-inner rounded-3">
-						<div class="carousel-item active">
-							<img src="assets/img/weferlingen.jpg" class="d-block w-100" alt="Weferlingen">
-							<div class="carousel-caption d-none d-md-block">
-								<h5>Weferlingen</h5>
-								<p>Home of the 306th Assault Brigade of the Bundeswehr</p>
+					<!-- Main content begin -->
+					<section id="images">
+						<div class="container">
+							<div class="container pt-5">
+								<h2 class="text-center mt-3 text-body-emphasis display-3">Willkommen, Soldat!</h2>
+								<p class="px-5 pt-2 pb-3">The 306th Assault Brigade welcomes you to its ranks. As a soldier in our unit, you'll experience the thrill of tactical combat in an immersive ArmA 3 environment. Join us as we emulate the professionalism and dedication of the German Bundeswehr. Prepare for intense missions, camaraderie, and a rewarding milsim experience.</p>
+							</div>
+							<!-- Carousel -->
+							<div class="container h-auto mb-3" id="carousel">
+								<div id="carouselExampleCaptions" class="carousel slide">
+									<div class="carousel-indicators">
+										<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+											aria-current="true" aria-label="Slide 1"></button>
+										<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+											aria-label="Slide 2"></button>
+										<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+											aria-label="Slide 3"></button>
+										<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
+											aria-label="Slide 4"></button>
+										<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4"
+											aria-label="Slide 5"></button>
+										<button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="5"
+											aria-label="Slide 6"></button>
+									</div>
+									<div class="carousel-inner rounded-3">
+										<div class="carousel-item active">
+											<img src="assets/img/weferlingen.jpg" class="d-block w-100" alt="Weferlingen">
+											<div class="carousel-caption d-none d-md-block">
+												<h5>Weferlingen</h5>
+												<p>Home of the 306th Assault Brigade of the Bundeswehr</p>
+											</div>
+										</div>
+										<div class="carousel-item">
+											<img src="assets/img/medic.jpg" class="d-block w-100" alt="Medics">
+											<div class="carousel-caption d-none d-md-block">
+												<h5 cla>Medics doing their job</h5>
+												<p>Our squad medics are always ready to stem bleeding, saw heads off or euthanize the enemy.</p>
+											</div>
+										</div>
+										<div class="carousel-item">
+											<img src="assets/img/photo3.jpg" class="d-block w-100" alt="...">
+											<div class="carousel-caption d-none d-md-block">
+												<h5>Third slide label</h5>
+												<p>Some representative placeholder content for the third slide.</p>
+											</div>
+										</div>
+										<div class="carousel-item">
+											<img src="assets/img/photo4.jpg" class="d-block w-100" alt="...">
+											<div class="carousel-caption d-none d-md-block">
+												<h5>Fourth slide label</h5>
+												<p>Some representative placeholder content for the fourth slide.</p>
+											</div>
+										</div>
+										<div class="carousel-item">
+											<img src="assets/img/photo5.jpg" class="d-block w-100" alt="...">
+											<div class="carousel-caption d-none d-md-block">
+												<h5>Fifth slide label</h5>
+												<p>Some representative placeholder content for the fifth slide.</p>
+											</div>
+										</div>
+										<div class="carousel-item">
+											<img src="assets/img/photo6.jpg" class="d-block w-100" alt="...">
+											<div class="carousel-caption d-none d-md-block">
+												<h5>Sixth slide label</h5>
+												<p>Some representative placeholder content for the sixth slide.</p>
+											</div>
+										</div>
+									</div>
+									<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+										data-bs-slide="prev">
+										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+										<span class="visually-hidden">Previous</span>
+									</button>
+									<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+										data-bs-slide="next">
+										<span class="carousel-control-next-icon" aria-hidden="true"></span>
+										<span class="visually-hidden">Next</span>
+									</button>
+								</div>
 							</div>
 						</div>
-						<div class="carousel-item">
-							<img src="assets/img/medic.jpg" class="d-block w-100" alt="Medics">
-							<div class="carousel-caption d-none d-md-block">
-								<h5 cla>Medics doing their job</h5>
-								<p>Our squad medics are always ready to stem bleeding, saw heads off or euthanize the enemy.</p>
-							</div>
-						</div>
-						<div class="carousel-item">
-							<img src="assets/img/photo3.jpg" class="d-block w-100" alt="...">
-							<div class="carousel-caption d-none d-md-block">
-								<h5>Third slide label</h5>
-								<p>Some representative placeholder content for the third slide.</p>
-							</div>
-						</div>
-						<div class="carousel-item">
-							<img src="assets/img/photo4.jpg" class="d-block w-100" alt="...">
-							<div class="carousel-caption d-none d-md-block">
-								<h5>Fourth slide label</h5>
-								<p>Some representative placeholder content for the fourth slide.</p>
-							</div>
-						</div>
-						<div class="carousel-item">
-							<img src="assets/img/photo5.jpg" class="d-block w-100" alt="...">
-							<div class="carousel-caption d-none d-md-block">
-								<h5>Fifth slide label</h5>
-								<p>Some representative placeholder content for the fifth slide.</p>
-							</div>
-						</div>
-						<div class="carousel-item">
-							<img src="assets/img/photo6.jpg" class="d-block w-100" alt="...">
-							<div class="carousel-caption d-none d-md-block">
-								<h5>Sixth slide label</h5>
-								<p>Some representative placeholder content for the sixth slide.</p>
-							</div>
-						</div>
-					</div>
-					<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-						data-bs-slide="prev">
-						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-						<span class="visually-hidden">Previous</span>
-					</button>
-					<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-						data-bs-slide="next">
-						<span class="carousel-control-next-icon" aria-hidden="true"></span>
-						<span class="visually-hidden">Next</span>
-					</button>
-				</div>
-			</div>
-		</div>
-	</section>
+					</section>
 
-	<!-- about -->
-	<section id="about" class="pt-5">
-		<div class="container">
-			<div class="row">
-				<h2 class="text-body-emphasis mt-3">About us</h2>
-				<div class="col-12 col-md-6 col-lg-4">
-					<h3>How we operate</h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-						dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-						ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-						nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-						anim id est laborum.</p>
-				</div>
-				<div class="col-12 col-md-6 col-lg-4">
-					<h3>What we offer</h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-						dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-						ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-						nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-						anim id est laborum.</p>
-				</div>
-				<div class="col-12 col-md-6 col-lg-4">
-					<h3>Useful things to know</h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-						dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-						ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-						nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-						anim id est laborum.</p>
-				</div>
-			</div>
-		</div>
-	</section>
+					<!-- about -->
+					<section id="about" class="pt-5">
+						<div class="container">
+							<div class="row">
+								<h2 class="text-body-emphasis mt-3">About us</h2>
+								<div class="col-12 col-md-6 col-lg-4">
+									<h3>How we operate</h3>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+										et
+										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+										aliquip ex
+										ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+										eu fugiat
+										nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+										mollit
+										anim id est laborum.</p>
+								</div>
+								<div class="col-12 col-md-6 col-lg-4">
+									<h3>What we offer</h3>
+									<p>The 306th Assault Brigade is more than just a milsim unit; it's a community of like-minded
+										individuals who share a passion for ArmA 3 and military simulation. Established with the goal of
+										providing an enjoyable and fun environment, our unit welcomes both seasoned veterans and newcomers
+										alike. We strive to foster a supportive and engaging atmosphere where members can learn, grow, and
+										forge lasting friendships.</p>
+								</div>
+								<div class="col-12 col-md-6 col-lg-4">
+									<h3>Useful things to know</h3>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+										et
+										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+										aliquip ex
+										ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+										eu fugiat
+										nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+										mollit
+										anim id est laborum.</p>
+								</div>
+							</div>
+						</div>
+					</section>
 
-	<!-- Our Units cards -->
-	<section id="units">
-		<div class="container border-top">
-			<div class="row">
-				<h3 class="mt-3">Our Units</h3>
-				<p>At the 306th, you get to pick from a wide variety of available units. Pick one that fits you best!</p>
-			</div>
-			<div class="row g-3">
-				<div class="col-12 col-md-6 col-lg-4">
-					<div class="card">
-						<img src="/assets/img/photo1.jpg" alt="" class="card-img-top">
-						<div class="card-body">
-							<h5 class="card-title">Infantry</h5>
-							<p class="card-text">The Panzergrenadierbrigade!</p>
+					<!-- Our Units cards -->
+					<section id="units">
+						<div class="container border-top">
+							<div class="row">
+								<h3 class="mt-3">Our Units</h3>
+								<p class="w-50 text-body-secondary">Within the 306th Assault Brigade, you'll find a variety of specialized units, each with a unique role
+									and skill set. From infantry and armored divisions to aviation and logistics, our unit structure
+									offers a range of opportunities to suit different playstyles and preferences. Join the unit that
+									resonates with your interests and become part of a cohesive team working together to achieve victory
+									on the battlefield.
+								</p>
+							</div>
+							<div class="row g-3">
+								<div class="col-12 col-md-6 col-lg-4">
+									<div class="card">
+										<img src="/assets/img/photo1.jpg" alt="" class="card-img-top">
+										<div class="card-body">
+											<h5 class="card-title">Infantry</h5>
+											<p class="card-text">The Panzergrenadierbrigade!</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-12 col-md-6 col-lg-4">
+									<div class="card">
+										<img src="/assets/img/photo2.jpg" alt="" class="card-img-top">
+										<div class="card-body">
+											<h5 class="card-title">Panzer</h5>
+											<p class="card-text ">The Panzergrenadierbrigade!</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-12 col-md-6 col-lg-4">
+									<div class="card">
+										<img src="/assets/img/tank.jpg" alt="" class="card-img-top">
+										<div class="card-body">
+											<h5 class="card-title">Panzer</h5>
+											<p class="card-text">The squad is supported by mechanized infantry.</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-12 col-md-6 col-lg-4">
+									<div class="card">
+										<img src="/assets/img/photo3.jpg" alt="" class="card-img-top">
+										<div class="card-body">
+											<h5 class="card-title">Artillery</h5>
+											<p class="card-text">"Dear grid coordinates..."</p>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-				<div class="col-12 col-md-6 col-lg-4">
-					<div class="card">
-						<img src="/assets/img/photo2.jpg" alt="" class="card-img-top">
-						<div class="card-body">
-							<h5 class="card-title">Panzer</h5>
-							<p class="card-text ">The Panzergrenadierbrigade!</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-md-6 col-lg-4">
-					<div class="card">
-						<img src="/assets/img/tank.jpg" alt="" class="card-img-top">
-						<div class="card-body">
-							<h5 class="card-title">Panzer</h5>
-							<p class="card-text">The squad is supported by mechanized infantry.</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-md-6 col-lg-4">
-					<div class="card">
-						<img src="/assets/img/photo3.jpg" alt="" class="card-img-top">
-						<div class="card-body">
-							<h5 class="card-title">Artillery</h5>
-							<p class="card-text">"Dear grid coordinates..."</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
+					</section>
 
-	<div class="container" id="footer">
-		<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-			<p class="col-md-4 mb-0 text-body-secondary">&copy; 2023 macinsight <a href="//github.com/macinsight"><span class="bi-github"></span></a>
-			</p>
-			<ul class="nav col-md-5 justify-content-end">
-				<a href="#images" class="nav-item nav-link px-2 text-body-secondary">Gallery</a>
-				<a href="#about" class="nav-item nav-link px-2 text-body-secondary">About</a>
-				<a href="#units" class="nav-item nav-link px-2 text-body-secondary">Units</a>
-				<a href="" class="nav-item nav-link px-2 text-body-secondary">Discord</a>
-				<li class="nav-item"><a href="imprint.html" class="nav-link px-2 text-body-secondary">Imprint</a></li>
-				<a href="//units.arma3.com/unit/306thbrigade" class="nav-item nav-link px-2 text-body-secondary">306th AB on A3
-					Units</a>
-			</ul>
-		</footer>
-	</div>
+					<section id="join">
+						<div class="container"></div>
+					</section>
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-		crossorigin="anonymous"></script>
+					<div class="container" id="footer">
+						<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+							<p class="col-md-4 mb-0 text-body-secondary">&copy; 2023 macinsight <a
+									href="//github.com/macinsight"><span class="bi-github"></span></a>
+							</p>
+							<ul class="nav col-md-5 justify-content-end">
+								<a href="#images" class="nav-item nav-link px-2 text-body-secondary">Gallery</a>
+								<a href="#about" class="nav-item nav-link px-2 text-body-secondary">About</a>
+								<a href="#units" class="nav-item nav-link px-2 text-body-secondary">Units</a>
+								<a href="" class="nav-item nav-link px-2 text-body-secondary">Discord</a>
+								<li class="nav-item"><a href="imprint.html" class="nav-link px-2 text-body-secondary">Imprint</a></li>
+								<a href="//units.arma3.com/unit/306thbrigade" class="nav-item nav-link px-2 text-body-secondary">306th
+									AB on A3
+									Units</a>
+							</ul>
+						</footer>
+					</div>
+
+					<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+						integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+						crossorigin="anonymous"></script>
 </body>
 
 </html>
