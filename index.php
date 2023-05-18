@@ -105,6 +105,7 @@
 						<a href="#intro" class="nav-link nav-item">Home</a>
 						<a href="#images" class="nav-item nav-link px-2">Gallery</a>
 						<a href="#about" class="nav-item nav-link px-2">About</a>
+						<a href="#upcoming-operations" class="nav-item nav-link px-2">Upcoming Ops</a>
 						<a href="#units" class="nav-item nav-link px-2">Units</a>
 						<a href="#values" class="nav-item nav-link px-2">Values</a>
 					</ul>
@@ -293,6 +294,14 @@
 							</table>
 						</div>
 					</section>
+
+					<section id="upcoming-operations">
+						<div class="container">
+							<h2 class="text-center">Upcoming Operations</h2>
+							<?php include ('fetch_operations.php'); ?>
+						</div>
+					</section>			
+
 					<!-- Our Units cards -->
 					<section id="units" class="pt-5">
 						<div class="container my-3">
@@ -395,14 +404,7 @@
 								</div>
 							</div>
 						</div>
-					</section>
-
-					<section id="upcoming-operations">
-						<div class="container">
-							<h2 class="text-center">Upcoming Operations</h2>
-							<?php include ('fetch_operations.php'); ?>
-						</div>
-					</section>					
+					</section>		
 					
 					<div class="container" id="footer">
 						<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
