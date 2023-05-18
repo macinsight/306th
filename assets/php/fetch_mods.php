@@ -19,9 +19,8 @@ if ($result->num_rows > 0) {
         echo "<td><a class='link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' href='https://steamcommunity.com/sharedfiles/filedetails/?id=" . $row['mod_id'] . "'>" . $row['mod_name'] . "</a></td>";
         
         // Query Steam API for file size
-        $steamAPIKey = "198E9A22758D200BC3BF16C1A4FE9130";
         $modID = $row['mod_id'];
-        $url = "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/?key=$steamAPIKey&itemcount=1&publishedfileids[0]=$modID";
+        $url = "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/itemcount=1&publishedfileids[0]=$modID";
         $json = file_get_contents($url);
         $data = json_decode($json, true);
         $fileSize = isset($data['response']['publishedfiledetails'][0]['file_size']) ? $data['response']['publishedfiledetails'][0]['file_size'] : 'N/A';
