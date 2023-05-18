@@ -414,9 +414,23 @@
 					<section id="mods">
 						<div class="container pt-5">
 							<h3 class="pb-3">Our Mods</h3>
-							<?php include('fetch_mods.php'); ?>
 						</div>
 					</section>
+
+
+					<p>
+						<button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+							data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+							Toggle width collapse
+						</button>
+					</p>
+					<div style="min-height: 120px;">
+						<div class="collapse collapse-horizontal" id="collapseWidthExample">
+							<div class="card card-body" style="width: 300px;">
+							<?php include('fetch_mods.php'); ?>
+							</div>
+						</div>
+					</div>
 
 					<div class="container" id="footer">
 						<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
