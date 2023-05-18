@@ -297,7 +297,7 @@
 
 					<section id="upcoming-operations">
 						<div class="container pt-5">
-							<h2 class="pb-3">Upcoming Operations</h2>
+							<h3 class="pb-3">Upcoming Operations</h3>
 							<?php include ('fetch_operations.php'); ?>
 						</div>
 					</section>			
