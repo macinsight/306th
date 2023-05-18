@@ -414,9 +414,23 @@
 					<section id="mods">
 						<div class="container pt-5">
 							<h3 class="pb-3">Our Mods</h3>
-							<?php include('assets/php/fetch_mods.php'); ?>
+							<div class="dropdown">
+								<button class="btn btn-primary dropdown-toggle" type="button" id="modDropdown" data-bs-toggle="dropdown"
+									aria-expanded="false">
+									Select a Mod
+								</button>
+								<ul class="dropdown-menu" aria-labelledby="modDropdown">
+									<?php
+									include('assets/php/fetch_mods.php');
+									foreach ($mods as $mod) {
+										echo '<li><a class="dropdown-item" href="' . $mod['mod_link'] . '">' . $mod['mod_name'] . '</a></li>';
+									}
+									?>
+								</ul>
+							</div>
 						</div>
 					</section>
+
 
 					<div class="container" id="footer">
 						<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
