@@ -1,0 +1,17 @@
+{
+    "name": "root/306th.macinsight.net",
+    "type": "project",
+    "require": {
+        "vlucas/phpdotenv": "^5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Root\\306thMacinsightNet\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "macinsight"
+        }
+    ]
+}
