@@ -16,10 +16,9 @@ if ($result->num_rows > 0) {
     echo '<tbody>';
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
-        echo "<td><a class='link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' href='https://steamcommunity.com/sharedfiles/filedetails/?id=" . $row['mod_id'] . "'>" . $row['mod_name'] . "</a></td>";
-        
-        // Query Steam API for file size
         $modID = $row['mod_id'];
+        
+        // Query Steam API for mod details
         $apiUrl = "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/";
         $postData = http_build_query([
             'itemcount' => 1,
@@ -42,15 +41,19 @@ if ($result->num_rows > 0) {
             // Check if the response contains mod details
             if ($data['response']['result'] == 1 && isset($data['response']['publishedfiledetails'][0])) {
                 $fileSize = $data['response']['publishedfiledetails'][0]['file_size'];
+                $modTitle = $data['response']['publishedfiledetails'][0]['title'];
 
-                // Output the file size
+                // Output the link with the mod title
+                echo "<td><a class='link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' href='https://steamcommunity.com/sharedfiles/filedetails/?id=" . $modID . "'>" . $modTitle . "</a></td>";
                 echo "<td>" . $fileSize . "</td>";
             } else {
-                // Output "N/A" if file size is not available
+                // Output "N/A" if mod details are not available
+                echo "<td>N/A</td>";
                 echo "<td>N/A</td>";
             }
         } else {
             // Output "N/A" if API request failed
+            echo "<td>N/A</td>";
             echo "<td>N/A</td>";
         }
         
