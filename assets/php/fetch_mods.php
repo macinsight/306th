@@ -20,12 +20,39 @@ if ($result->num_rows > 0) {
         
         // Query Steam API for file size
         $modID = $row['mod_id'];
-        $url = "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/itemcount=1&publishedfileids[0]=$modID";
-        $json = file_get_contents($url);
-        $data = json_decode($json, true);
-        $fileSize = isset($data['response']['publishedfiledetails'][0]['file_size']) ? $data['response']['publishedfiledetails'][0]['file_size'] : 'N/A';
-        
-        echo "<td>" . $fileSize . "</td>";
+        $apiUrl = "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/";
+        $postData = http_build_query([
+            'itemcount' => 1,
+            'format' => 'json',
+            'publishedfileids[0]' => $modID
+        ]);
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $apiUrl);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+        $response = curl_exec($curl);
+        curl_close($curl);
+
+        // Check if the API request was successful
+        if ($response) {
+            $data = json_decode($response, true);
+
+            // Check if the response contains mod details
+            if ($data['response']['result'] == 1 && isset($data['response']['publishedfiledetails'][0])) {
+                $fileSize = $data['response']['publishedfiledetails'][0]['file_size'];
+
+                // Output the file size
+                echo "<td>" . $fileSize . "</td>";
+            } else {
+                // Output "N/A" if file size is not available
+                echo "<td>N/A</td>";
+            }
+        } else {
+            // Output "N/A" if API request failed
+            echo "<td>N/A</td>";
+        }
         
         echo "<td>";
         if ($row['mod_required'] == 1) {
