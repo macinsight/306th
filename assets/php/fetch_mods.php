@@ -11,8 +11,6 @@ $result = $conn->query($sql);
 
 // Generate HTML dynamically
 if ($result->num_rows > 0) {
-    echo '<div class="container pt-5">';
-    echo '<h3 class="pb-3">Our Mods</h3>';
     echo '<table class="table table-hover">';
     echo '<thead><tr><th>Mod Name</th><th>Required?</th></tr></thead>';
     echo '<tbody>';
@@ -30,7 +28,6 @@ if ($result->num_rows > 0) {
     }
     echo '</tbody>';
     echo '</table>';
-    echo '</div>';
 } else {
     echo "<p>No Mods found.</p>";
 }
