@@ -284,11 +284,14 @@
 									<tr>
 										<td>Required DLCs</td>
 										<td>Global Mobilization</td>
-										
+
 									</tr>
 									<tr>
 										<td>Required Mods</td>
-										<td><a href="https://docs.google.com/spreadsheets/d/1jr54oha2G13Pi56RbUsord1XXLlmLCyI4SRvQbx7Uo4/edit#gid=0" class="link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Click here</a></td>
+										<td><a
+												href="https://docs.google.com/spreadsheets/d/1jr54oha2G13Pi56RbUsord1XXLlmLCyI4SRvQbx7Uo4/edit#gid=0"
+												class="link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Click
+												here</a></td>
 									</tr>
 								</tbody>
 							</table>
@@ -298,9 +301,9 @@
 					<section id="upcoming-operations">
 						<div class="container pt-5">
 							<h3 class="pb-3">Upcoming Operations</h3>
-							<?php include ('fetch_operations.php'); ?>
+							<?php include('fetch_operations.php'); ?>
 						</div>
-					</section>			
+					</section>
 
 					<!-- Our Units cards -->
 					<section id="units" class="pt-5">
@@ -389,7 +392,9 @@
 								<div class="col-md-6">
 									<h4>Communication</h4>
 									<p>Effective communication is the backbone of successful teamwork. Within the 306th Assault Brigade,
-										we utilize <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=894678801" class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">voice communication software</a> to coordinate our actions and relay vital information. Make
+										we utilize <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=894678801"
+											class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">voice
+											communication software</a> to coordinate our actions and relay vital information. Make
 										sure to have a working microphone and headset, and familiarize yourself with the communication
 										protocols and callouts used by the unit. Clear and concise communication can make a significant
 										difference in the heat of battle.</p>
@@ -404,8 +409,15 @@
 								</div>
 							</div>
 						</div>
-					</section>		
-					
+					</section>
+
+					<section id="mods">
+						<div class="container pt-5">
+							<h3 class="pb-3">Our Mods</h3>
+							<?php include('fetch_mods.php'); ?>
+						</div>
+					</section>
+
 					<div class="container" id="footer">
 						<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
 							<p class="col-md-4 mb-0 text-body-secondary">&copy; 2023 macinsight <a
