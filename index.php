@@ -120,7 +120,7 @@
 	</div>
 
 	<!-- Cover -->
-	<div class=" container d-flex flex-column w-100 min-vh-100 p-3 mx-auto text-center" id="intro">
+	<div class="container d-flex flex-column w-100 min-vh-100 p-3 mx-auto text-center" id="intro">
 									<div class="container my-5">
 										<div class="p-5 text-center bg-body-tertiary rounded-4">
 											<p class="text-muted fs-4">Welcome to:</p>
@@ -288,8 +288,7 @@
 									</tr>
 									<tr>
 										<td>Required Mods</td>
-										<td><a
-												href="mods.php"
+										<td><a href="mods.php"
 												class="link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Click
 												here</a></td>
 									</tr>

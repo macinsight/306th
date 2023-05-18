@@ -29,7 +29,7 @@ $result = $conn->query($sql);
 
 // Generate HTML dynamically
 if ($result->num_rows > 0) {
-  echo '<table class="table table-striped">';
+  echo '<table class="table table-hover">';
   echo '<thead><tr><th>Operation Name</th><th><i class="bi bi-calendar2-event"></i> Date</th><th><i class="bi bi-stopwatch"></i> Time (Local)</th><th><i class="bi bi-geo-alt"></i> Location</th><th><i class="bi bi-card-text"></i> Description</th></tr></thead>';
   echo '<tbody>';
   while ($row = $result->fetch_assoc()) {

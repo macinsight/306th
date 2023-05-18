@@ -1,62 +1,91 @@
-<?php
-require_once __DIR__ . '/../../vendor/autoload.php';
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRUD Operations</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Create Operation</h2>
+        <form method="POST" action="your_php_script.php">
+            <div class="form-group">
+                <label for="operation_name">Operation Name:</label>
+                <input type="text" class="form-control" id="operation_name" name="operation_name" required>
+            </div>
 
-use Dotenv\Dotenv;
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" class="form-control" id="date" name="date" required>
+            </div>
 
-// Load environment variables from .env file
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
-$dotenv->load();
+            <div class="form-group">
+                <label for="time">Time:</label>
+                <input type="time" class="form-control" id="time" name="time" required>
+            </div>
 
-// Database connection
-$host = $_ENV['DB_HOST'];
-$port = $_ENV['DB_PORT'];
-$username = $_ENV['DB_USERNAME'];
-$password = $_ENV['DB_PASSWORD'];
-$database = $_ENV['DB_DATABASE'];
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" class="form-control" id="location" name="location" required>
+            </div>
 
-$conn = new mysqli($host . ':' . $port, $username, $password, $database);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" id="description" name="description" required></textarea>
+            </div>
 
-// CRUD operations
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Create or Update operation
-    $modID = $_POST['mod_id'];
-    $modRequired = isset($_POST['mod_required']) ? 1 : 0;
+            <button type="submit" class="btn btn-primary" name="create">Create</button>
+        </form>
 
-    if ($_POST['operation'] === 'create') {
-        $sql = "INSERT INTO modlist (mod_id, mod_required) VALUES ('$modID', '$modRequired')";
-        if ($conn->query($sql) === TRUE) {
-            echo '<div class="alert alert-success" role="alert">Mod added successfully.</div>';
-        } else {
-            echo '<div class="alert alert-danger" role="alert">Error: ' . $conn->error . '</div>';
-        }
-    } elseif ($_POST['operation'] === 'update') {
-        $sql = "UPDATE modlist SET mod_required='$modRequired' WHERE mod_id='$modID'";
-        if ($conn->query($sql) === TRUE) {
-            echo '<div class="alert alert-success" role="alert">Mod updated successfully.</div>';
-        } else {
-            echo '<div class="alert alert-danger" role="alert">Error: ' . $conn->error . '</div>';
-        }
-    }
-} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // Delete operation
-    if (isset($_GET['delete'])) {
-        $modID = $_GET['delete'];
-        $sql = "DELETE FROM modlist WHERE mod_id='$modID'";
-        if ($conn->query($sql) === TRUE) {
-            echo '<div class="alert alert-success" role="alert">Mod deleted successfully.</div>';
-        } else {
-            echo '<div class="alert alert-danger" role="alert">Error: ' . $conn->error . '</div>';
-        }
-    }
-}
+        <h2>Update Operation</h2>
+        <form method="POST" action="your_php_script.php">
+            <div class="form-group">
+                <label for="operation_id">Operation ID:</label>
+                <input type="text" class="form-control" id="operation_id" name="operation_id" required>
+            </div>
 
-// Fetch mod data
-$sql = "SELECT * FROM modlist ORDER BY id ASC";
-$result = $conn->query($sql);
+            <div class="form-group">
+                <label for="operation_name">Operation Name:</label>
+                <input type="text" class="form-control" id="operation_name" name="operation_name" required>
+            </div>
 
-// Include the HTML template
-include('form-template.php');
-?>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="time">Time:</label>
+                <input type="time" class="form-control" id="time" name="time" required>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" class="form-control" id="location" name="location" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" id="description" name="description" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary" name="update">Update</button>
+        </form>
+
+        <h2>Delete Operation</h2>
+        <form method="POST" action="your_php_script.php">
+            <div class="form-group">
+                <label for="operation_id">Operation ID:</label>
+                <input type="text" class="form-control" id="operation_id" name="operation_id" required>
+            </div>
+
+            <button type="submit" class="btn btn-danger" name="delete">Delete</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>
