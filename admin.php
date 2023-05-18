@@ -8,7 +8,7 @@
 <body>
     <div class="container">
         <h2>Create Operation</h2>
-        <form method="POST" action="your_php_script.php">
+        <form method="POST" action="assets/php/manage_operations_db.php">
             <div class="form-group">
                 <label for="operation_name">Operation Name:</label>
                 <input type="text" class="form-control" id="operation_name" name="operation_name" required>
@@ -38,7 +38,7 @@
         </form>
 
         <h2>Update Operation</h2>
-        <form method="POST" action="your_php_script.php">
+        <form method="POST" action="assets/php/manage_operations_db.php">
             <div class="form-group">
                 <label for="operation_id">Operation ID:</label>
                 <input type="text" class="form-control" id="operation_id" name="operation_id" required>
@@ -73,7 +73,7 @@
         </form>
 
         <h2>Delete Operation</h2>
-        <form method="POST" action="your_php_script.php">
+        <form method="POST" action="assets/php/manage_operations_db.php">
             <div class="form-group">
                 <label for="operation_id">Operation ID:</label>
                 <input type="text" class="form-control" id="operation_id" name="operation_id" required>
