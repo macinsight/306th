@@ -41,7 +41,7 @@ function retrieveAPIResponseFromCache($cacheFile, $cacheDuration)
 }
 
 // Query to fetch mod data
-$sql = "SELECT * FROM modlist ORDER BY id ASC";
+$sql = "SELECT * FROM modlist ORDER BY mod_id ASC";
 $result = $conn->query($sql);
 
 // Cache duration in seconds (1 hour in this example)
