@@ -1,12 +1,12 @@
 <?php
 // Database connection
-$conn = new mysqli("localhost", "306_ops", "buG9*9x23!!", "operations");
+$conn = new mysqli("localhost:3306", "306_ops", "buG9*9x23!!", "operations");
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
 // Query to fetch upcoming operations
-$sql = "SELECT * FROM operations WHERE date >= CURDATE() ORDER BY date ASC";
+$sql = "SELECT * FROM operations ORDER BY date ASC";
 $result = $conn->query($sql);
 
 // Generate HTML dynamically
@@ -21,7 +21,7 @@ if ($result->num_rows > 0) {
     echo "</div>";
   }
 } else {
-  echo "No upcoming operations found.";
+  echo "<p>No upcoming operations found.</p>";
 }
 
 // Close the database connection
