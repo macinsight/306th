@@ -22,11 +22,17 @@ function fetchAPIResponse($apiUrl, $postData, $cacheFile)
     return $response;
 }
 
-// Function to retrieve API response from cache if available
-function retrieveAPIResponseFromCache($cacheFile)
+// Function to retrieve API response from cache if available and not expired
+function retrieveAPIResponseFromCache($cacheFile, $cacheDuration)
 {
     if (file_exists($cacheFile)) {
-        return file_get_contents($cacheFile);
+        $fileModifiedTime = filemtime($cacheFile);
+        $currentTime = time();
+        $elapsedTime = $currentTime - $fileModifiedTime;
+
+        if ($elapsedTime <= $cacheDuration) {
+            return file_get_contents($cacheFile);
+        }
     }
 
     return false;
@@ -36,6 +42,9 @@ function retrieveAPIResponseFromCache($cacheFile)
 $sql = "SELECT * FROM modlist ORDER BY id ASC";
 $result = $conn->query($sql);
 
+// Cache duration in seconds (1 hour in this example)
+$cacheDuration = 3600;
+
 // Generate HTML dynamically
 if ($result->num_rows > 0) {
     echo '<table class="table table-hover">';
@@ -44,12 +53,12 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
         $modID = $row['mod_id'];
-        
+
         // Define cache file path
         $cacheFile = "cache/$modID.cache";
 
-        // Check if API response is available in cache
-        $response = retrieveAPIResponseFromCache($cacheFile);
+        // Check if API response is available in cache and not expired
+        $response = retrieveAPIResponseFromCache($cacheFile, $cacheDuration);
 
         if (!$response) {
             // Query Steam API for mod details
@@ -74,14 +83,14 @@ if ($result->num_rows > 0) {
             $fileSize = isset($fileDetails['file_size']) ? round($fileDetails['file_size'] / (1024 * 1024), 2) . ' MB' : 'N/A';
 
             // Output the link with the mod title
-            echo "<td><a class='link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' href='https://steamcommunity.com/sharedfiles/filedetails/?id=" . $modID . "'>" . $modTitle . "</a></td>";
-            echo "<td>" . $fileSize . "</td>";
+            echo "<td><a href='https://steamcommunity.com/sharedfiles/filedetails/?id=$modID' target='_blank'>$modTitle</a></td>";
+            echo "<td>$fileSize</td>";
         } else {
             // Output "N/A" if mod details are not available
             echo "<td>N/A</td>";
             echo "<td>N/A</td>";
         }
-        
+
         echo "<td>";
         if ($row['mod_required'] == 1) {
             echo '<span class="badge rounded-pill text-success text-bg-info">Required</span>';
