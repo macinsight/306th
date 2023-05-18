@@ -92,7 +92,7 @@
 		</form>
 
 		<h2>Delete Record</h2>
-		<form method="POST" action="../assets/phpmanage_operations_db.php">
+		<form method="POST" action="../assets/php/manage_operations_db.php">
 			<div class="mb-3">
 				<label for="operation_id" class="form-label">Operation ID:</label>
 				<input type="text" class="form-control" name="operation_id" required>
