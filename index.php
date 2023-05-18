@@ -414,23 +414,24 @@
 					<section id="mods">
 						<div class="container pt-5">
 							<h3 class="pb-3">Our Mods</h3>
-						</div>
-					</section>
-
-
-					<p>
-						<button class="btn btn-primary" type="button" data-bs-toggle="collapse"
-							data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
-							Toggle width collapse
-						</button>
-					</p>
-					<div style="min-height: 120px;">
-						<div class="collapse collapse-horizontal" id="collapseWidthExample">
-							<div class="card card-body" style="width: 300px;">
-							<?php include('fetch_mods.php'); ?>
+							<p>
+								<a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button"
+									aria-expanded="false" aria-controls="collapseExample">
+									Link with href
+								</a>
+								<button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+									data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+									Button with data-bs-target
+								</button>
+							</p>
+							<div class="collapse" id="collapseExample">
+								<div class="card card-body">
+									Some placeholder content for the collapse component. This panel is hidden by default but revealed when
+									the user activates the relevant trigger.
+								</div>
 							</div>
 						</div>
-					</div>
+					</section>
 
 					<div class="container" id="footer">
 						<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
