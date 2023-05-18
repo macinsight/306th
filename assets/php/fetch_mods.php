@@ -61,6 +61,9 @@ $result = $conn->query($sql);
 // Cache duration in seconds (1 hour in this example)
 $cacheDuration = 3600;
 
+// Variable to store the total size
+$totalSize = 0;
+
 // Generate HTML dynamically
 if ($result->num_rows > 0) {
     echo '<table class="table table-hover">';
@@ -96,7 +99,10 @@ if ($result->num_rows > 0) {
         if ($data['response']['result'] == 1 && isset($data['response']['publishedfiledetails'][0])) {
             $fileDetails = $data['response']['publishedfiledetails'][0];
             $modTitle = $fileDetails['title'];
-            $fileSize = isset($fileDetails['file_size']) ? round($fileDetails['file_size'] / (1024 * 1024), 2) . ' MB' : 'N/A';
+            $fileSize = isset($fileDetails['file_size']) ? $fileDetails['file_size'] : 0;
+
+            // Accumulate the total size
+            $totalSize += $fileSize;
 
             // Output the link with the mod title
             echo "<td><a href='https://steamcommunity.com/sharedfiles/filedetails/?id=$modID' target='_blank'>$modTitle</a></td>";
@@ -118,10 +124,29 @@ if ($result->num_rows > 0) {
     }
     echo '</tbody>';
     echo '</table>';
+
+    // Convert the total size to a human-readable format
+    $totalSizeFormatted = formatBytes($totalSize);
+
+    // Display the total size
+    echo "<p>Total Size: $totalSizeFormatted</p>";
 } else {
     echo "<p>No Mods found.</p>";
 }
 
 // Close the database connection
 $conn->close();
+
+// Function to format bytes to a human-readable format (e.g., KB, MB, GB, etc.)
+function formatBytes($bytes, $precision = 2) {
+    $units = array('B', 'KB', 'MB', 'GB', 'TB');
+
+    $bytes = max($bytes, 0);
+    $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+    $pow = min($pow, count($units) - 1);
+
+    $bytes /= (1 << (10 * $pow));
+
+    return round($bytes, $precision) . ' ' . $units[$pow];
+}
 ?>
