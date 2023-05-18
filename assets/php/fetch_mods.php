@@ -61,6 +61,9 @@ $result = $conn->query($sql);
 // Cache duration in seconds (1 hour in this example)
 $cacheDuration = 3600;
 
+// Variable to store the total file size
+$totalFileSize = 0;
+
 // Generate HTML dynamically
 if ($result->num_rows > 0) {
     echo '<table class="table table-hover">';
@@ -99,6 +102,9 @@ if ($result->num_rows > 0) {
             $fileSizeBytes = isset($fileDetails['file_size']) ? $fileDetails['file_size'] : 0;
             $fileSizeMB = round($fileSizeBytes / (1024 * 1024), 2);
 
+            // Increment the total file size
+            $totalFileSize += $fileSizeMB;
+
             // Output the link with the mod title
             echo "<td><a href='https://steamcommunity.com/sharedfiles/filedetails/?id=$modID' target='_blank'>$modTitle</a></td>";
             echo "<td>$fileSizeMB MB</td>";
@@ -119,6 +125,9 @@ if ($result->num_rows > 0) {
     }
     echo '</tbody>';
     echo '</table>';
+
+    // Display the total file size
+    echo "<p>Total File Size: $totalFileSize MB</p>";
 } else {
     echo "<p>No Mods found.</p>";
 }
