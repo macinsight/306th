@@ -11,13 +11,20 @@ $result = $conn->query($sql);
 
 // Generate HTML dynamically
 if ($result->num_rows > 0) {
-  echo '<table class="table table-striped">';
-  echo '<thead><tr><th>Mod Name</th><th>Steam URL</th></tr></thead>';
+  echo '<table class="table table-hover">';
+  echo '<thead><tr><th>Mod Name</th><th>Steam URL</th><th>Required?</th></tr></thead>';
   echo '<tbody>';
   while ($row = $result->fetch_assoc()) {
     echo "<tr>";
     echo "<td>" . $row['mod_name'] . "</td>";
     echo "<td><a href='https://steamcommunity.com/sharedfiles/filedetails/?id=" . $row['mod_id'] . "'>" . $row['mod_id'] . "</a></td>";
+    echo "<td>";
+    if ($row['mod_required'] == 1) {
+      echo '<span class="badge rounded-pill text-primary">Required</span>';
+    } else {
+      echo '<span class="badge rounded-pill text-secondary">Not Required</span>';
+    }
+    echo "</td>";
     echo "</tr>";
   }
   echo '</tbody>';
