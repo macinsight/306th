@@ -40,15 +40,13 @@ if ($result->num_rows > 0) {
 
             // Check if the response contains mod details
             if ($data['response']['result'] == 1 && isset($data['response']['publishedfiledetails'][0])) {
-                $fileSize = $data['response']['publishedfiledetails'][0]['file_size'];
-                $modTitle = $data['response']['publishedfiledetails'][0]['title'];
+                $fileDetails = $data['response']['publishedfiledetails'][0];
+                $modTitle = $fileDetails['title'];
+                $fileSize = isset($fileDetails['file_size']) ? round($fileDetails['file_size'] / (1024 * 1024), 2) . ' MB' : 'N/A';
 
-                // Convert file size to megabytes
-                $fileSizeMB = $fileSize !== 'N/A' ? round($fileSize / 1048576, 2) . ' MB' : 'N/A';
-
-                // Output the link with the mod title and file size
+                // Output the link with the mod title
                 echo "<td><a class='link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' href='https://steamcommunity.com/sharedfiles/filedetails/?id=" . $modID . "'>" . $modTitle . "</a></td>";
-                echo "<td>" . $fileSizeMB . "</td>";
+                echo "<td>" . $fileSize . "</td>";
             } else {
                 // Output "N/A" if mod details are not available
                 echo "<td>N/A</td>";
