@@ -8,13 +8,15 @@ if ($conn->connect_error) {
 // Function to fetch API response and store it in cache
 function fetchAPIResponse($apiUrl, $postData, $cacheFile)
 {
-    $curl = curl_init();
-    curl_setopt($curl, CURLOPT_URL, $apiUrl);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, CURLOPT_POST, true);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
-    $response = curl_exec($curl);
-    curl_close($curl);
+    $context = stream_context_create([
+        'http' => [
+            'method' => 'POST',
+            'header' => 'Content-Type: application/x-www-form-urlencoded',
+            'content' => $postData
+        ]
+    ]);
+
+    $response = file_get_contents($apiUrl, false, $context);
 
     // Save the response to cache file
     file_put_contents($cacheFile, $response);
