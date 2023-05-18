@@ -11,13 +11,26 @@ $result = $conn->query($sql);
 
 // Generate HTML dynamically
 if ($result->num_rows > 0) {
-    echo '<div class="dropdown">';
-    echo '<button class="btn btn-secondary dropdown-toggle" type="button" id="modDropdown" data-bs-toggle="dropdown" aria-expanded="false">Select a Mod</button>';
-    echo '<ul class="dropdown-menu" aria-labelledby="modDropdown">';
+    echo '<div class="accordion" id="modAccordion">';
     while ($row = $result->fetch_assoc()) {
-        echo '<li><a class="dropdown-item" href="https://steamcommunity.com/sharedfiles/filedetails/?id=' . $row['mod_id'] . '">' . $row['mod_name'] . '</a></li>';
+        echo '<div class="accordion-item">';
+        echo '<h2 class="accordion-header" id="modHeading' . $row['id'] . '">';
+        echo '<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#modCollapse' . $row['id'] . '" aria-expanded="true" aria-controls="modCollapse' . $row['id'] . '">';
+        echo $row['mod_name'];
+        echo '</button>';
+        echo '</h2>';
+        echo '<div id="modCollapse' . $row['id'] . '" class="accordion-collapse collapse" aria-labelledby="modHeading' . $row['id'] . '" data-bs-parent="#modAccordion">';
+        echo '<div class="accordion-body">';
+        echo '<p>Steam URL: <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=' . $row['mod_id'] . '">' . $row['mod_id'] . '</a></p>';
+        if ($row['mod_required'] == 1) {
+            echo '<span class="badge rounded-pill text-bg-info">Required</span>';
+        } else {
+            echo '<span class="badge rounded-pill text-secondary">Not Required</span>';
+        }
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
     }
-    echo '</ul>';
     echo '</div>';
 } else {
     echo "<p>No Mods found.</p>";
