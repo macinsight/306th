@@ -11,7 +11,7 @@ $result = $conn->query($sql);
 
 // Generate HTML dynamically
 if ($result->num_rows > 0) {
-    echo '<table class="table table-hover">';
+    echo '<table class="table table-hover table-sm">';
     echo '<thead><tr><th>Mod Name</th><th>Required?</th></tr></thead>';
     echo '<tbody>';
     while ($row = $result->fetch_assoc()) {
