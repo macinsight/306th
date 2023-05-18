@@ -5,8 +5,8 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-// Set the default timezone
-date_default_timezone_set('UTC');
+// Set the default timezone to CST (Central Standard Time)
+date_default_timezone_set('America/Chicago');
 
 // Query to fetch upcoming operations
 $sql = "SELECT * FROM operations ORDER BY date ASC";
@@ -22,9 +22,9 @@ if ($result->num_rows > 0) {
     echo "<td>" . $row['operation_name'] . "</td>";
     echo "<td>" . $row['date'] . "</td>";
 
-    // Convert time to user's local time
+    // Convert time to CST (Central Standard Time)
     $time = new DateTime($row['time'], new DateTimeZone('UTC'));
-    $time->setTimezone(new DateTimeZone(date_default_timezone_get()));
+    $time->setTimezone(new DateTimeZone('America/Chicago'));
     echo "<td>" . $time->format('H:i') . "</td>";
 
     echo "<td>" . $row['location'] . "</td>";
