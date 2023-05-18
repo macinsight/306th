@@ -20,7 +20,7 @@ if ($result->num_rows > 0) {
     echo "<td><a class='link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' href='https://steamcommunity.com/sharedfiles/filedetails/?id=" . $row['mod_id'] . "'>" . $row['mod_id'] . "</a></td>";
     echo "<td>";
     if ($row['mod_required'] == 1) {
-      echo '<span class="badge rounded-pill text-success text-bg-info">Required</span>';
+      echo '<span class="badge rounded-pill text-bg-info">Required</span>';
     } else {
       echo '<span class="badge rounded-pill text-secondary">Not Required</span>';
     }
