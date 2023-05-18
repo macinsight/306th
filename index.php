@@ -420,7 +420,12 @@
 									Select a Mod
 								</button>
 								<ul class="dropdown-menu" aria-labelledby="modDropdown">
-									<?php include('assets/php/fetch_mods.php');?>
+									<?php
+									include('assets/php/fetch_mods.php');
+									foreach ($mods as $mod) {
+										echo '<li><a class="dropdown-item" href="' . $mod['mod_link'] . '">' . $mod['mod_name'] . '</a></li>';
+									}
+									?>
 								</ul>
 							</div>
 						</div>
