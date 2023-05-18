@@ -16,7 +16,7 @@ if ($result->num_rows > 0) {
     echo '<tbody>';
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
-        echo "<td><a class='btn btn-primary' href='https://steamcommunity.com/sharedfiles/filedetails/?id=" . $row['mod_id'] . "' target='_blank'>" . $row['mod_name'] . "</a></td>";
+        echo "<td><a class='btn btn-primary btn-sm' href='https://steamcommunity.com/sharedfiles/filedetails/?id=" . $row['mod_id'] . "' target='_blank'>" . $row['mod_name'] . "</a></td>";
         echo "<td>";
         if ($row['mod_required'] == 1) {
             echo '<span class="badge rounded-pill text-bg-info">Required</span>';
