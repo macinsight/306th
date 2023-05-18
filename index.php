@@ -414,12 +414,6 @@
 					<section id="mods">
 						<div class="container pt-5">
 							<h3 class="pb-3">Our Mods</h3>
-							<div class="dropdown">
-								<button class="btn btn-primary dropdown-toggle" type="button" id="modDropdown" data-bs-toggle="dropdown"
-									aria-expanded="false">
-									Select a Mod
-								</button>
-								<ul class="dropdown-menu" aria-labelledby="modDropdown">
 									<?php include('assets/php/fetch_mods.php'); ?>
 								</ul>
 							</div>
