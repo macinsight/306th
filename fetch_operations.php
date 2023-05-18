@@ -11,15 +11,20 @@ $result = $conn->query($sql);
 
 // Generate HTML dynamically
 if ($result->num_rows > 0) {
+  echo '<table class="table table-striped">';
+  echo '<thead><tr><th>Operation Name</th><th>Date</th><th>Time</th><th>Location</th><th>Description</th></tr></thead>';
+  echo '<tbody>';
   while ($row = $result->fetch_assoc()) {
-    echo "<div class='operation'>";
-    echo "<h3>" . $row['operation_name'] . "</h3>";
-    echo "<p><span class="bi-calendar2-event" width="32" height="32"></span>: " . $row['date'] . "</p>";
-    echo "<p><span class="bi-stopwatch" width="32" height="32"></span> " . $row['time'] . "</p>";
-    echo "<p><span class="bi-geo-alt" width="32" height="32"></span>" . $row['location'] . "</p>";
-    echo "<p><span class="bi-card-text" width="32" height="32"></span> " . $row['description'] . "</p>";
-    echo "</div>";
+    echo "<tr>";
+    echo "<td>" . $row['operation_name'] . "</td>";
+    echo "<td>" . $row['date'] . "</td>";
+    echo "<td>" . $row['time'] . "</td>";
+    echo "<td>" . $row['location'] . "</td>";
+    echo "<td>" . $row['description'] . "</td>";
+    echo "</tr>";
   }
+  echo '</tbody>';
+  echo '</table>';
 } else {
   echo "<p>No upcoming operations found.</p>";
 }
