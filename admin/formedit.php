@@ -56,8 +56,24 @@ $conn->close();
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CRUD Operations</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<script src="/assets/js/color-modes.js"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="author" content="github.com/macinsight">
+	<title>The 306th | Your next ArmA 3 unit</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+	<link href="css/cover.css" rel="stylesheet">
+	<link href="css/custom.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+	<meta property="og:title" content="The 306th Assault Brigade" />
+	<meta name="description"
+		content="The 306th is recruiting! Join the Discord for more info - 1980-1997 Bundeswehr Mechanized Arma 3 Unit.">
+	<meta property="og:url" content="https://306th.macinsight.net" />
+	<meta property="og:image" content="https://306th.macinsight.net/assets/img/306th.png" />
+	<meta name="keywords"
+		content="ArmA, ArmA 3, unit, milsim, Bundeswehr, German, semi-milsim, tactical combat, immersive, missions, camaraderie, milsim experience">
+	<meta name="theme-color" content="#4a5342">
 </head>
 <body>
     <div class="container">
