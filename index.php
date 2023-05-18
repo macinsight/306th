@@ -289,7 +289,7 @@
 									<tr>
 										<td>Required Mods</td>
 										<td><a
-												href="https://docs.google.com/spreadsheets/d/1jr54oha2G13Pi56RbUsord1XXLlmLCyI4SRvQbx7Uo4/edit#gid=0"
+												href="mods.php"
 												class="link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover">Click
 												here</a></td>
 									</tr>
@@ -410,16 +410,6 @@
 							</div>
 						</div>
 					</section>
-
-					<section id="mods">
-						<div class="container pt-5">
-							<h3 class="pb-3">Our Mods</h3>
-									<?php include('assets/php/fetch_mods.php'); ?>
-								</ul>
-							</div>
-						</div>
-					</section>
-
 
 					<div class="container" id="footer">
 						<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
