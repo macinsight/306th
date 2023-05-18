@@ -17,7 +17,7 @@ if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
     echo "<tr>";
     echo "<td>" . $row['mod_name'] . "</td>";
-    echo "<td>" . $row['mod_id'] . "</td>";
+    echo "<td><a href='https://steamcommunity.com/sharedfiles/filedetails/?id=" . $row['mod_id'] . "'>" . $row['mod_id'] . "</a></td>";
     echo "</tr>";
   }
   echo '</tbody>';

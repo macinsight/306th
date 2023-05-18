@@ -301,7 +301,7 @@
 					<section id="upcoming-operations">
 						<div class="container pt-5">
 							<h3 class="pb-3">Upcoming Operations</h3>
-							<?php include('fetch_operations.php'); ?>
+							<?php include('assets/php/fetch_operations.php'); ?>
 						</div>
 					</section>
 
