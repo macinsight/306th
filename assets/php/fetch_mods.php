@@ -5,6 +5,33 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Function to fetch API response and store it in cache
+function fetchAPIResponse($apiUrl, $postData, $cacheFile)
+{
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $apiUrl);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
+    $response = curl_exec($curl);
+    curl_close($curl);
+
+    // Save the response to cache file
+    file_put_contents($cacheFile, $response);
+
+    return $response;
+}
+
+// Function to retrieve API response from cache if available
+function retrieveAPIResponseFromCache($cacheFile)
+{
+    if (file_exists($cacheFile)) {
+        return file_get_contents($cacheFile);
+    }
+
+    return false;
+}
+
 // Query to fetch mod data
 $sql = "SELECT * FROM modlist ORDER BY id ASC";
 $result = $conn->query($sql);
@@ -18,42 +45,39 @@ if ($result->num_rows > 0) {
         echo "<tr>";
         $modID = $row['mod_id'];
         
-        // Query Steam API for mod details
-        $apiUrl = "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/";
-        $postData = http_build_query([
-            'itemcount' => 1,
-            'format' => 'json',
-            'publishedfileids[0]' => $modID
-        ]);
+        // Define cache file path
+        $cacheFile = "cache/$modID.cache";
 
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $apiUrl);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $postData);
-        $response = curl_exec($curl);
-        curl_close($curl);
+        // Check if API response is available in cache
+        $response = retrieveAPIResponseFromCache($cacheFile);
 
-        // Check if the API request was successful
-        if ($response) {
-            $data = json_decode($response, true);
+        if (!$response) {
+            // Query Steam API for mod details
+            $apiUrl = "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/";
+            $postData = http_build_query([
+                'itemcount' => 1,
+                'format' => 'json',
+                'publishedfileids[0]' => $modID
+            ]);
 
-            // Check if the response contains mod details
-            if ($data['response']['result'] == 1 && isset($data['response']['publishedfiledetails'][0])) {
-                $fileDetails = $data['response']['publishedfiledetails'][0];
-                $modTitle = $fileDetails['title'];
-                $fileSize = isset($fileDetails['file_size']) ? round($fileDetails['file_size'] / (1024 * 1024), 2) . ' MB' : 'N/A';
+            // Fetch API response and store it in cache
+            $response = fetchAPIResponse($apiUrl, $postData, $cacheFile);
+        }
 
-                // Output the link with the mod title
-                echo "<td><a class='link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' href='https://steamcommunity.com/sharedfiles/filedetails/?id=" . $modID . "'>" . $modTitle . "</a></td>";
-                echo "<td>" . $fileSize . "</td>";
-            } else {
-                // Output "N/A" if mod details are not available
-                echo "<td>N/A</td>";
-                echo "<td>N/A</td>";
-            }
+        // Process API response
+        $data = json_decode($response, true);
+
+        // Check if the response contains mod details
+        if ($data['response']['result'] == 1 && isset($data['response']['publishedfiledetails'][0])) {
+            $fileDetails = $data['response']['publishedfiledetails'][0];
+            $modTitle = $fileDetails['title'];
+            $fileSize = isset($fileDetails['file_size']) ? round($fileDetails['file_size'] / (1024 * 1024), 2) . ' MB' : 'N/A';
+
+            // Output the link with the mod title
+            echo "<td><a class='link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' href='https://steamcommunity.com/sharedfiles/filedetails/?id=" . $modID . "'>" . $modTitle . "</a></td>";
+            echo "<td>" . $fileSize . "</td>";
         } else {
-            // Output "N/A" if API request failed
+            // Output "N/A" if mod details are not available
             echo "<td>N/A</td>";
             echo "<td>N/A</td>";
         }
