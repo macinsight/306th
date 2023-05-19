@@ -87,33 +87,6 @@ $cacheDuration = 86400;
 if ($result->num_rows > 0) {
     echo '<form method="POST">'; // Start the form
 
-    echo '<div class="d-flex justify-content-between mb-3">'; // Start the container for Submit and Pagination
-    echo '<button type="submit" class="btn btn-primary">Submit</button>'; // Add the submit button
-
-    // Handle form submission
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $requiredMods = isset($_POST['mod_required']) ? $_POST['mod_required'] : [];
-
-        foreach ($requiredMods as $modID) {
-            $required = in_array($modID, $requiredMods) ? 1 : 0;
-            updateModRequiredStatus($modID, $required);
-        }
-
-        // Handle mod record deletion
-        $deleteMods = isset($_POST['mod_delete']) ? $_POST['mod_delete'] : [];
-
-        foreach ($deleteMods as $modID) {
-            deleteModRecord($modID);
-        }
-
-        // Refresh the page after updating the database
-        header('Location: ' . $_SERVER['PHP_SELF']);
-        exit();
-    }
-
-    echo 'Pagination'; // Add the pagination element
-    echo '</div>'; // End the container for Submit and Pagination
-
     echo '<table class="table table-hover">';
     echo '<thead><tr><th>Mod Name</th><th>File Size (MB)</th><th>Required?</th><th>Delete?</th></tr></thead>';
     echo '<tbody>';
@@ -122,7 +95,7 @@ if ($result->num_rows > 0) {
         $modID = $row['mod_id'];
 
         // Define cache file path
-        $cacheFile = "../../cache/$modID.cache";
+        $cacheFile = "cache/$modID.cache";
 
         // Check if API response is available in cache and not expired
         $response = retrieveAPIResponseFromCache($cacheFile, $cacheDuration);
@@ -165,7 +138,35 @@ if ($result->num_rows > 0) {
     echo '</tbody>';
     echo '</table>';
 
+    echo '<div class="d-flex justify-content-between">'; // Start the container for Submit and Pagination
+
+    echo '<button type="submit" class="btn btn-primary">Submit</button>'; // Add the submit button
+
+    echo 'Pagination'; // Add the pagination element
+
+    echo '</div>'; // End the container for Submit and Pagination
+
     echo '</form>'; // End the form
+
+    // Handle form submission
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $requiredMods = isset($_POST['mod_required']) ? $_POST['mod_required'] : [];
+
+        foreach ($requiredMods as $modID) {
+            $required = in_array($modID, $requiredMods) ? 1 : 0;
+            updateModRequiredStatus($modID, $required);
+        }
+
+        $deleteMods = isset($_POST['mod_delete']) ? $_POST['mod_delete'] : [];
+
+        foreach ($deleteMods as $modID) {
+            deleteModRecord($modID);
+        }
+
+        // Refresh the page after updating the database
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit();
+    }
 
     // Close the database connection
     $conn->close();
