@@ -56,6 +56,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    // Output API response for debugging
+    echo "<pre>";
+    echo "API Response:<br>";
+    echo htmlspecialchars($response);
+    echo "</pre>";
+
     // Handle mod deletions
     if (isset($_POST['delete_mod'])) {
         $modsToDelete = $_POST['delete_mod'];
@@ -63,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             deleteMod($modID);
         }
     }
+
 
     // Redirect to avoid form resubmission on page refresh
     header("Location: modlist.php");
