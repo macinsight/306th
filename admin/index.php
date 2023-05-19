@@ -115,49 +115,77 @@
 	</svg>
 
 	<div class="container sticky-top" id="navbar">
-  <nav class="navbar navbar-expand-lg bg-body-tertiary rounded" id="navigator">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">306th Assault Brigade</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbartoggler"
-        aria-controls="navbartoggler" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbartoggler">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a href="#intro" class="nav-link">Home</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="operationsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Operations
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="operationsDropdown">
-              <li><a class="dropdown-item" href="#">Create</a></li>
-              <li><a class="dropdown-item" href="#">Update</a></li>
-              <li><a class="dropdown-item" href="#">Delete 3</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="modlistDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Modlist
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="modlistDropdown">
-              <li><a class="dropdown-item" href="#">Create</a></li>
-              <li><a class="dropdown-item" href="#">Update</a></li>
-              <li><a class="dropdown-item" href="#">Delete</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-</div>
+		<nav class="navbar navbar-expand-lg bg-body-tertiary rounded" id="navigator">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#">306th Assault Brigade</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbartoggler"
+					aria-controls="navbartoggler" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbartoggler">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item">
+							<a href="#intro" class="nav-link">Home</a>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="operationsDropdown" role="button"
+								data-bs-toggle="dropdown" aria-expanded="false">
+								Operations
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="operationsDropdown">
+								<li><a class="dropdown-item" href="#">Create</a></li>
+								<li><a class="dropdown-item" href="#">Update</a></li>
+								<li><a class="dropdown-item" href="#">Delete 3</a></li>
+							</ul>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="modlistDropdown" role="button" data-bs-toggle="dropdown"
+								aria-expanded="false">
+								Modlist
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="modlistDropdown">
+								<li><a class="dropdown-item" href="#">Create</a></li>
+								<li><a class="dropdown-item" href="#">Update</a></li>
+								<li><a class="dropdown-item" href="#">Delete</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
 
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<form id="form1" class="form-container">
+					<!-- Form for Option 1 -->
+					<h4>Form for Option 1</h4>
+					<label for="input1">Input 1:</label>
+					<input type="text" id="input1" name="input1">
+					<!-- Add more form fields as needed -->
+				</form>
 
+				<form id="form2" class="form-container">
+					<!-- Form for Option 2 -->
+					<h4>Form for Option 2</h4>
+					<label for="input2">Input 2:</label>
+					<input type="text" id="input2" name="input2">
+					<!-- Add more form fields as needed -->
+				</form>
+
+				<form id="form3" class="form-container">
+					<!-- Form for Option 3 -->
+					<h4>Form for Option 3</h4>
+					<label for="input3">Input 3:</label>
+					<input type="text" id="input3" name="input3">
+			</div>
+		</div>
+	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-						integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-						crossorigin="anonymous"></script>
+		integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+		crossorigin="anonymous"></script>
 
 </body>
 
