@@ -36,8 +36,7 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
         echo "<td>" . $row["id"] . "</td>";
-        echo "<td>" . $row["name"] . "</td>";
-        echo "<td>" . $row["description"] . "</td>";
+        echo "<td>" . $row["mod_id"] . "</td>";
         echo "</tr>";
     }
 
