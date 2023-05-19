@@ -58,8 +58,8 @@ function retrieveAPIResponseFromCache($cacheFile, $cacheDuration)
 $sql = "SELECT * FROM modlist ORDER BY id ASC";
 $result = $conn->query($sql);
 
-// Cache duration in seconds (1 hour in this example)
-$cacheDuration = 3600;
+// Cache duration in seconds (1 day)
+$cacheDuration = 86400;
 
 // Variable to store the total file size
 $totalFileSize = 0;
