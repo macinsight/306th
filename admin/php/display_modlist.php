@@ -55,6 +55,15 @@ function retrieveAPIResponseFromCache($cacheFile, $cacheDuration)
     return false;
 }
 
+// Function to delete the cache file for a specific mod
+function deleteCacheFile($modID)
+{
+    $cacheFile = "cache/$modID.cache";
+    if (file_exists($cacheFile)) {
+        unlink($cacheFile);
+    }
+}
+
 // Function to update the required status for a specific mod
 function updateModRequiredStatus($modID, $required)
 {
@@ -170,6 +179,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Delete the selected mods from the database
     $deleteSql = "DELETE FROM modlist WHERE mod_id IN ('" . implode("','", $deleteMods) . "')";
     $conn->query($deleteSql);
+
+    // Delete the cache files for the deleted mods
+    foreach ($deleteMods as $modID) {
+    deleteCacheFile($modID);
 
     // Add new item if provided
     $newItem = isset($_POST['new_item']) ? trim($_POST['new_item']) : '';
