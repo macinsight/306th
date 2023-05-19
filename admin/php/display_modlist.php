@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Dotenv\Dotenv;
@@ -111,7 +112,6 @@ if ($result->num_rows > 0) {
             $fileSizeMB = round($fileSizeBytes / (1024 * 1024), 2);
 
             // Output the checkbox, mod title, and other mod details
-
             echo "<td><a href='https://steamcommunity.com/sharedfiles/filedetails/?id=$modID' class='link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' target='_blank'>$modTitle</a></td>";
             echo "<td>$fileSizeMB MB</td>";
         } else {
@@ -149,6 +149,7 @@ if ($result->num_rows > 0) {
     ';
 
     echo '</form>'; // End the form
+}
 
 // Handle form submission and new item addition
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -190,10 +191,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Redirect to refresh the page after submitting
     header("Location: " . $_SERVER['PHP_SELF']);
     exit();
-}
-    }
-} else {
-    echo "No mods found.";
 }
 
 $conn->close();
