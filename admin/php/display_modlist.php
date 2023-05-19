@@ -65,8 +65,6 @@ function updateModRequiredStatus($modID, $required)
     return $result;
 }
 
-
-
 $sql = "SELECT * FROM modlist ORDER BY id ASC";
 $result = $conn->query($sql);
 
@@ -140,7 +138,7 @@ if ($result->num_rows > 0) {
     echo '</tbody>';
     echo '</table>';
 
-    echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmationModal">Submit</button>'; // Add the submit button
+    echo '<button type="submit" class="btn btn-primary">Submit</button>'; // Change to submit button
 
     // Add the input form for adding new Steam Workshop items
     echo '
@@ -151,61 +149,6 @@ if ($result->num_rows > 0) {
     ';
 
     echo '</form>'; // End the form
-
-    // Confirmation Modal
-    echo '
-    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmationModalLabel">Confirm Deletion</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete the selected mods?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" id="deleteButton">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    ';
-
-    // JavaScript function to handle form submission and new item addition
-    echo '
-    <script>
-        document.getElementById("deleteButton").addEventListener("click", function() {
-            document.getElementById("modForm").submit();
-        });
-
-        document.getElementById("newItemInput").addEventListener("change", function() {
-            var newItem = this.value.trim();
-
-            // Extract ID from link if provided
-            if (newItem.includes("steamcommunity.com/sharedfiles/filedetails/?id=")) {
-                var url = new URL(newItem);
-                var idParam = url.searchParams.get("id");
-                newItem = idParam;
-            }
-
-            // Validate and add the new item
-            if (newItem.length > 0) {
-                var newItemOption = document.createElement("option");
-                newItemOption.value = newItem;
-                newItemOption.selected = true;
-                newItemOption.text = newItem;
-
-                var selectElement = document.getElementById("newItemSelect");
-                selectElement.appendChild(newItemOption);
-            }
-
-            // Reset the input field
-            this.value = "";
-        });
-    </script>
-    ';
 
     // Handle form submission and new item addition
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -248,3 +191,4 @@ if ($result->num_rows > 0) {
 }
 
 $conn->close();
+?>
