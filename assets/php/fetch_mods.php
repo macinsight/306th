@@ -116,7 +116,7 @@ if ($result->num_rows > 0) {
 
         echo "<td>";
         if ($row['mod_required'] == 1) {
-            echo '<span class="badge rounded-pill text-success text-bg-info">Required</span>';
+            echo '<span class="badge rounded-pill text-bg-info">Required</span>';
         } else {
             echo '<span class="badge rounded-pill text-secondary">Not Required</span>';
         }
