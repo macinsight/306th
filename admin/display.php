@@ -14,7 +14,8 @@ function displayHead()
         <link href="css/cover.css" rel="stylesheet">
         <link href="css/custom.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    </head>';
+    </head>'
+}
 function displayThemeSelector()
 {
     echo '<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">';
