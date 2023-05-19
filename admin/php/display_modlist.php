@@ -137,9 +137,10 @@ if ($resultPage->num_rows > 0) {
             $fileSizeMB = round($fileSizeBytes / (1024 * 1024), 2);
 
             // Output the link with the mod title
-            echo "<td><input type='checkbox' name='mod_delete[]' value='$modID'> <a href='https://steamcommunity.com/sharedfiles/filedetails/?id=$modID' class='link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' target='_blank'>$modTitle</a></td>";
+            echo "<td><a href='https://steamcommunity.com/sharedfiles/filedetails/?id=$modID' class='link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' target='_blank'>$modTitle</a></td>";
             echo "<td>$fileSizeMB MB</td>";
             echo "<td><input type='checkbox' name='mod_required[]' value='$modID'></td>";
+            echo "<td><input type='checkbox' name='mod_delete[]' value='$modID'></td>";
         } else {
             // Output "N/A" if mod details are not available
             echo "<td>N/A</td>";
