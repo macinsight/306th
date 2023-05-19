@@ -189,7 +189,7 @@ if ($result->num_rows > 0) {
         echo "<td>";
         echo "<div class='form-check form-switch'>";
         echo "<input class='form-check-input' type='checkbox' role='switch' id='switch_$modID' name='mod_required[]' value='$modID'" . ($row['mod_required'] == 1 ? ' checked' : '') . ">";
-        echo "<label class='form-check-label' for='switch_$modID'>Required</label>";
+        echo "<label class='form-check-label' for='switch_$modID'></label>";
         echo "</div>";
         echo "</td>";
         echo "<td>";
@@ -203,8 +203,6 @@ if ($result->num_rows > 0) {
     echo '</tbody>';
     echo '</table>';
 
-    echo '<button type="submit" class="btn btn-primary">Submit</button>'; // Change to submit button
-
     // Add the input form for adding new Steam Workshop items
     echo '
     <div class="mb-3 mt-3" >
@@ -212,7 +210,7 @@ if ($result->num_rows > 0) {
         <input type="text" class="form-control" id="newItemInput" name="new_item" placeholder="Enter ID or Link">
     </div>
     ';
-
+    echo '<button type="submit" class="btn btn-primary">Submit</button>'; // Change to submit button
     echo '</form>'; // End the form
 }
 
