@@ -73,11 +73,8 @@ function displayNavbar()
     echo '<div class="collapse navbar-collapse" id="navbartoggler">';
     echo '<ul class="navbar-nav me-auto mb-2 mb-lg-0">';
     echo '<a href="#intro" class="nav-link nav-item">Home</a>';
-    echo '<a href="#images" class="nav-item nav-link px-2">Gallery</a>';
-    echo '<a href="#about" class="nav-item nav-link px-2">About</a>';
-    echo '<a href="#upcoming-operations" class="nav-item nav-link px-2">Upcoming Ops</a>';
-    echo '<a href="#units" class="nav-item nav-link px-2">Units</a>';
-    echo '<a href="#values" class="nav-item nav-link px-2">Values</a>';
+    echo '<a href="modlist.php" class="nav-link nav-item">Modlist</a>';
+    echo '<a href="#intro" class="nav-link nav-item">Home</a>';
     echo '</ul>';
     echo '<div class="d-lg-flex col-lg-3 justify-content-lg-end">';
     echo '<a class="icon-link" href="https://discord.gg/D3U3e9seZ7">';
