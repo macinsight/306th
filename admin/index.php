@@ -25,8 +25,8 @@ require_once 'display.php';
 
 <body>
 	<?php
+	displayThemeSelector();
 	displayNavbar();
-	
 	displayFooter();
 	?>
 
