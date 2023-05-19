@@ -20,13 +20,13 @@ if ($conn->connect_error) {
 }
 
 // Fetch all records from the operations table
-$sql = "SELECT operation_id, operation_name FROM operations";
+$sql = "SELECT id, operation_name FROM operations";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     // Display the ID and operation_name of each record
     while ($row = $result->fetch_assoc()) {
-        echo "ID: " . $row['operation_id'] . ", Operation Name: " . $row['operation_name'] . "<br>";
+        echo "ID: " . $row['id'] . ", Operation Name: " . $row['operation_name'] . "<br>";
     }
 } else {
     echo "No operations found.";
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } elseif (isset($_POST['update'])) {
         // Update an existing record
-        $operationId = $_POST['operation_id'];
+        $operationId = $_POST['id'];
         $operationName = $_POST['operation_name'];
         $date = $_POST['date'];
         $time = $_POST['time'];
@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } elseif (isset($_POST['delete'])) {
         // Delete a record
-        $operationId = $_POST['operation_id'];
+        $operationId = $_POST['id'];
 
         $sql = "DELETE FROM operations WHERE id=$operationId";
         if ($conn->query($sql) === true) {
