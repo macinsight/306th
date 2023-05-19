@@ -175,9 +175,9 @@ if ($result->num_rows > 0) {
     echo '
     <script>
     document.getElementById("submitBtn").addEventListener("click", function() {
-        var deleteMods = document.querySelectorAll('input[name="delete_mod[]"]:checked');
+        var deleteMods = document.querySelectorAll(\'input[name="delete_mod[]"]:checked\');
         if (deleteMods.length > 0) {
-            $('#confirmationModal').modal('show');
+            $(\'#confirmationModal\').modal(\'show\');
         } else {
             document.getElementById("modForm").submit();
         }
@@ -215,38 +215,38 @@ if ($result->num_rows > 0) {
     ';
 
     // Handle form submission and new item addition
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $requiredMods = isset($_POST['mod_required']) ? $_POST['mod_required'] : [];
+    if ($_SERVER[\'REQUEST_METHOD\'] === \'POST\') {
+        $requiredMods = isset($_POST[\'mod_required\']) ? $_POST[\'mod_required\'] : [];
 
         foreach ($requiredMods as $modID) {
             $required = in_array($modID, $requiredMods) ? 1 : 0;
             updateModRequiredStatus($modID, $required);
         }
-        $deleteMods = isset($_POST['delete_mod']) ? $_POST['delete_mod'] : [];
+        $deleteMods = isset($_POST[\'delete_mod\']) ? $_POST[\'delete_mod\'] : [];
 
         // Delete the selected mods from the database
-        $deleteSql = "DELETE FROM modlist WHERE mod_id IN ('" . implode("','", $deleteMods) . "')";
+        $deleteSql = "DELETE FROM modlist WHERE mod_id IN (\'" . implode("\',\'", $deleteMods) . "\')";
         $conn->query($deleteSql);
 
         // Add new item if provided
-        $newItem = isset($_POST['new_item']) ? trim($_POST['new_item']) : '';
+        $newItem = isset($_POST[\'new_item\']) ? trim($_POST[\'new_item\']) : \'\';
         if (!empty($newItem)) {
             // Extract ID from link if provided
-            if (strpos($newItem, 'steamcommunity.com/sharedfiles/filedetails/?id=') !== false) {
+            if (strpos($newItem, \'steamcommunity.com/sharedfiles/filedetails/?id=\') !== false) {
                 $url = parse_url($newItem);
-                parse_str($url['query'], $query);
-                if (isset($query['id'])) {
-                    $newItem = $query['id'];
+                parse_str($url[\'query\'], $query);
+                if (isset($query[\'id\'])) {
+                    $newItem = $query[\'id\'];
                 }
             }
 
             // Add the new item
-            $insertSql = "INSERT INTO modlist (mod_id, mod_required) VALUES ('$newItem', 0)";
+            $insertSql = "INSERT INTO modlist (mod_id, mod_required) VALUES (\'$newItem\', 0)";
             $conn->query($insertSql);
         }
 
         // Redirect to refresh the page after submitting
-        header("Location: " . $_SERVER['PHP_SELF']);
+        header("Location: " . $_SERVER[\'PHP_SELF\']);
         exit();
     }
 } else {
@@ -257,19 +257,14 @@ $conn->close();
 
 ?>
 
-	<div class="container" id="footer">
-		<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-			<p class="col-md-4 mb-0 text-body-secondary">&copy; 2023 macinsight <a href="//github.com/macinsight"><span
-						class="bi-github"></span></a>
-			</p>
-			<ul class="nav col-md-5 justify-content-end">
-				<a href="#images" class="nav-item nav-link px-2 text-body-secondary">Gallery</a>
-				<a href="#about" class="nav-item nav-link px-2 text-body-secondary">About</a>
-				<a href="#contact" class="nav-item nav-link px-2 text-body-secondary">Contact</a>
-			</ul>
-		</footer>
-	</div>
+<div class="container" id="footer">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <p class="col-md-4 mb-0 text-muted">© 2023 Company, Inc</p>
 
-</body>
-
-</html>
+        <ul class="nav col-md-4 justify-content-end">
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Terms</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Privacy</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Contact</a></li>
+        </ul>
+    </footer>
+</div>
