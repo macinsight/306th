@@ -84,7 +84,7 @@ if ($result->num_rows > 0) {
         $modID = $row['mod_id'];
 
         // Define cache file path
-        $cacheFile = "cache/$modID.cache";
+        $cacheFile = "../../cache/$modID.cache";
 
         // Check if API response is available in cache and not expired
         $response = retrieveAPIResponseFromCache($cacheFile, $cacheDuration);
