@@ -121,6 +121,12 @@ if ($result->num_rows > 0) {
             echo '<span class="badge rounded-pill text-secondary">Not Required</span>';
         }
         echo "</td>";
+        echo "<td>";
+        echo "<div class='form-check form-switch'>";
+        echo "<input class='form-check-input" type='checkbox' role='switch' id="switch_$modID">"
+        echo "<label class='form-check-label' for='switch_$modID'>Required</label>"
+        echo "</div>";
+        echo "<td>"
         echo "</tr>";
     }
     echo '</tbody>';
