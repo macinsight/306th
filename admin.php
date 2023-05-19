@@ -7,6 +7,42 @@
 </head>
 <body>
     <div class="container">
+        <h2>Operations List</h2>
+        <?php
+            // Include the PHP file for database connection
+            include 'assets/php/database_connection.php';
+
+            // Fetch all records from the database
+            $query = "SELECT operation_id, operation_name FROM operations";
+            $result = mysqli_query($connection, $query);
+
+            // Check if there are any records
+            if (mysqli_num_rows($result) > 0) {
+                // Display the records in a table
+                echo '<table class="table">
+                        <thead>
+                            <tr>
+                                <th>Operation ID</th>
+                                <th>Operation Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
+                while ($row = mysqli_fetch_assoc($result)) {
+                    echo '<tr>
+                            <td>' . $row['operation_id'] . '</td>
+                            <td>' . $row['operation_name'] . '</td>
+                          </tr>';
+                }
+                echo '</tbody>
+                      </table>';
+            } else {
+                echo 'No operations found.';
+            }
+
+            // Close the database connection
+            mysqli_close($connection);
+        ?>
+
         <h2>Create Operation</h2>
         <form method="POST" action="assets/php/manage_operations_db.php">
             <div class="form-group">

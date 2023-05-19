@@ -19,6 +19,18 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Fetch all records from the operations table
+$sql = "SELECT operation_id, operation_name FROM operations";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    // Display the ID and operation_name of each record
+    while ($row = $result->fetch_assoc()) {
+        echo "ID: " . $row['operation_id'] . ", Operation Name: " . $row['operation_name'] . "<br>";
+    }
+} else {
+    echo "No operations found.";
+}
 // Check if the form is submitted for creating or updating a record
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['create'])) {
