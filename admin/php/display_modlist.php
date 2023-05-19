@@ -80,17 +80,30 @@ function deleteModRecord($modID)
 $sql = "SELECT * FROM modlist ORDER BY id ASC";
 $result = $conn->query($sql);
 
+// Pagination settings
+$entriesPerPage = 25;
+$totalEntries = $result->num_rows;
+$totalPages = ceil($totalEntries / $entriesPerPage);
+$currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
+
+// Calculate the offset for database query
+$offset = ($currentPage - 1) * $entriesPerPage;
+
+// Query to fetch mod data for the current page
+$sqlPage = "SELECT * FROM modlist ORDER BY id ASC LIMIT $offset, $entriesPerPage";
+$resultPage = $conn->query($sqlPage);
+
 // Cache duration in seconds (1 day)
 $cacheDuration = 86400;
 
 // Generate HTML dynamically
-if ($result->num_rows > 0) {
+if ($resultPage->num_rows > 0) {
     echo '<form method="POST">'; // Start the form
 
     echo '<table class="table table-hover">';
     echo '<thead><tr><th>Mod Name</th><th>File Size (MB)</th><th>Required?</th><th>Delete?</th></tr></thead>';
     echo '<tbody>';
-    while ($row = $result->fetch_assoc()) {
+    while ($row = $resultPage->fetch_assoc()) {
         echo "<tr>";
         $modID = $row['mod_id'];
 
@@ -142,7 +155,42 @@ if ($result->num_rows > 0) {
 
     echo '<button type="submit" class="btn btn-primary">Submit</button>'; // Add the submit button
 
-    echo 'Pagination'; // Add the pagination element
+    echo '<nav aria-label="Page navigation example">'; // Start the pagination element
+    echo '<ul class="pagination">';
+
+    // Previous page button
+    echo '<li class="page-item ';
+    if ($currentPage == 1) {
+        echo 'disabled';
+    }
+    echo '">';
+    echo '<a class="page-link" href="?page=' . ($currentPage - 1) . '" aria-label="Previous">';
+    echo '<span aria-hidden="true">&laquo;</span>';
+    echo '</a>';
+    echo '</li>';
+
+    // Page numbers
+    for ($page = 1; $page <= $totalPages; $page++) {
+        echo '<li class="page-item';
+        if ($page == $currentPage) {
+            echo ' active';
+        }
+        echo '"><a class="page-link" href="?page=' . $page . '">' . $page . '</a></li>';
+    }
+
+    // Next page button
+    echo '<li class="page-item ';
+    if ($currentPage == $totalPages) {
+        echo 'disabled';
+    }
+    echo '">';
+    echo '<a class="page-link" href="?page=' . ($currentPage + 1) . '" aria-label="Next">';
+    echo '<span aria-hidden="true">&raquo;</span>';
+    echo '</a>';
+    echo '</li>';
+
+    echo '</ul>';
+    echo '</nav>'; // End the pagination element
 
     echo '</div>'; // End the container for Submit and Pagination
 
@@ -164,7 +212,7 @@ if ($result->num_rows > 0) {
         }
 
         // Refresh the page after updating the database
-        header('Location: ' . $_SERVER['PHP_SELF']);
+        header('Location: ' . $_SERVER['PHP_SELF'] . '?page=' . $currentPage);
         exit();
     }
 
