@@ -174,9 +174,18 @@ if ($result->num_rows > 0) {
     // JavaScript function to handle form submission and new item addition
     echo '
     <script>
-        document.getElementById("deleteButton").addEventListener("click", function() {
+    document.getElementById("submitBtn").addEventListener("click", function() {
+        var deleteMods = document.querySelectorAll('input[name="delete_mod[]"]:checked');
+        if (deleteMods.length > 0) {
+            $('#confirmationModal').modal('show');
+        } else {
             document.getElementById("modForm").submit();
-        });
+        }
+    });
+
+    document.getElementById("deleteButton").addEventListener("click", function() {
+        document.getElementById("modForm").submit();
+    });
 
         document.getElementById("newItemInput").addEventListener("change", function() {
             var newItem = this.value.trim();
