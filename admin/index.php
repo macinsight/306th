@@ -10,7 +10,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 	<link href="../css/custom.css" rel="stylesheet">
-	<script src="js/script.js"></script>
+	<script src="/js/script.js"></script>
 </head>
 
 <body>
@@ -159,27 +159,56 @@
 	<div class="container">
 		<div class="row">
 			<div class="col">
-				<form id="form1" class="form-container">
-					<!-- Form for Option 1 -->
-					<h4>Form for Option 1</h4>
-					<label for="input1">Input 1:</label>
-					<input type="text" id="input1" name="input1">
-					<!-- Add more form fields as needed -->
+				<form>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Email address</label>
+						<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+						<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputPassword1" class="form-label">Password</label>
+						<input type="password" class="form-control" id="exampleInputPassword1">
+					</div>
+					<div class="mb-3 form-check">
+						<input type="checkbox" class="form-check-input" id="exampleCheck1">
+						<label class="form-check-label" for="exampleCheck1">Check me out</label>
+					</div>
+					<button type="submit" class="btn btn-primary">Submit</button>
 				</form>
 
-				<form id="form2" class="form-container">
-					<!-- Form for Option 2 -->
-					<h4>Form for Option 2</h4>
-					<label for="input2">Input 2:</label>
-					<input type="text" id="input2" name="input2">
-					<!-- Add more form fields as needed -->
+				<form>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Email address</label>
+						<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+						<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputPassword1" class="form-label">Password</label>
+						<input type="password" class="form-control" id="exampleInputPassword1">
+					</div>
+					<div class="mb-3 form-check">
+						<input type="checkbox" class="form-check-input" id="exampleCheck1">
+						<label class="form-check-label" for="exampleCheck1">Check me out</label>
+					</div>
+					<button type="submit" class="btn btn-primary">Submit</button>
 				</form>
 
-				<form id="form3" class="form-container">
-					<!-- Form for Option 3 -->
-					<h4>Form for Option 3</h4>
-					<label for="input3">Input 3:</label>
-					<input type="text" id="input3" name="input3">
+				<form>
+					<div class="mb-3">
+						<label for="exampleInputEmail1" class="form-label">Email address</label>
+						<input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+						<div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+					</div>
+					<div class="mb-3">
+						<label for="exampleInputPassword1" class="form-label">Password</label>
+						<input type="password" class="form-control" id="exampleInputPassword1">
+					</div>
+					<div class="mb-3 form-check">
+						<input type="checkbox" class="form-check-input" id="exampleCheck1">
+						<label class="form-check-label" for="exampleCheck1">Check me out</label>
+					</div>
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
 			</div>
 		</div>
 	</div>
