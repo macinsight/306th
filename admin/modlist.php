@@ -7,78 +7,68 @@ displayThemeSelector();
 displayHead();
 displayNavbar();
 
-// Check if the form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Check if a new item is submitted
-    if (isset($_POST['new_item']) && !empty($_POST['new_item'])) {
+    if (isset($_POST['new_item'])) {
         $newItem = $_POST['new_item'];
-        
-        // Extract the Steam Workshop ID from the URL if provided
+
+        // Extract Workshop ID from the URL, if provided
         $workshopID = extractWorkshopID($newItem);
 
-        // Validate the Workshop ID
-        if ($workshopID) {
-            // Query Steam API for mod details
-            $apiUrl = "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/";
-            $postData = http_build_query([
-                'itemcount' => 1,
-                'format' => 'json',
-                'publishedfileids[0]' => $workshopID
-            ]);
+        // Query Steam API for mod details
+        $apiUrl = "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/";
+        $postData = http_build_query([
+            'itemcount' => 1,
+            'format' => 'json',
+            'publishedfileids[0]' => $workshopID
+        ]);
 
-            // Fetch API response and store it in cache
-            $cacheFile = "cache/$workshopID.cache";
-            $response = fetchAPIResponse($apiUrl, $postData, $cacheFile);
+        // Fetch API response and store it in cache
+        $cacheFile = "cache/$workshopID.cache";
+        $response = fetchAPIResponse($apiUrl, $postData, $cacheFile);
 
-            // Process API response
-            $data = json_decode($response, true);
+        // Process API response
+        $data = json_decode($response, true);
 
-            // Check if the response contains mod details
-            if ($data['response']['result'] == 1 && isset($data['response']['publishedfiledetails'][0])) {
-                $fileDetails = $data['response']['publishedfiledetails'][0];
-                $modTitle = $fileDetails['title'];
-                $fileSizeBytes = isset($fileDetails['file_size']) ? $fileDetails['file_size'] : 0;
-                $fileSizeMB = round($fileSizeBytes / (1024 * 1024), 2);
+        // Check if the response contains mod details
+        if ($data['response']['result'] == 1 && isset($data['response']['publishedfiledetails'][0])) {
+            $fileDetails = $data['response']['publishedfiledetails'][0];
+            $modTitle = $fileDetails['title'];
+            $fileSizeBytes = isset($fileDetails['file_size']) ? $fileDetails['file_size'] : 0;
+            $fileSizeMB = round($fileSizeBytes / (1024 * 1024), 2);
 
-                // Insert the new item into the database
-                $sql = "INSERT INTO modlist (mod_id, mod_title, mod_file_size) VALUES (?, ?, ?)";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("iss", $workshopID, $modTitle, $fileSizeMB);
-                $stmt->execute();
-                $stmt->close();
-
-                // Delete the cache file for the new item (to fetch updated details next time)
-                deleteCacheFile($workshopID);
-            }
-        }
-    }
-
-    // Check if any mods are marked as required or need to be deleted
-    if (isset($_POST['mod_required']) || isset($_POST['delete_mod'])) {
-        $requiredMods = isset($_POST['mod_required']) ? $_POST['mod_required'] : [];
-        $deletedMods = isset($_POST['delete_mod']) ? $_POST['delete_mod'] : [];
-
-        // Update the required status for each mod
-        foreach ($requiredMods as $modID) {
-            updateModRequiredStatus($modID, 1);
-        }
-
-        // Delete the selected mods
-        foreach ($deletedMods as $modID) {
-            // Delete the mod from the database
-            $sql = "DELETE FROM modlist WHERE mod_id = ?";
+            // Insert the new item into the database
+            $sql = "INSERT INTO modlist (mod_id, mod_required) VALUES (?, 0)";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("i", $modID);
+            $stmt->bind_param("s", $workshopID);
             $stmt->execute();
             $stmt->close();
 
-            // Delete the cache file for the deleted mod
-            deleteCacheFile($modID);
+            // Delete the cache file for the new item
+            deleteCacheFile($workshopID);
         }
     }
+
+    // Handle required status updates
+    if (isset($_POST['mod_required'])) {
+        $modRequired = $_POST['mod_required'];
+        foreach ($modRequired as $modID) {
+            updateModRequiredStatus($modID, 1);
+        }
+    }
+
+    // Handle mod deletions
+    if (isset($_POST['delete_mod'])) {
+        $modsToDelete = $_POST['delete_mod'];
+        foreach ($modsToDelete as $modID) {
+            deleteMod($modID);
+        }
+    }
+
+    // Redirect to avoid form resubmission on page refresh
+    header("Location: modlist.php");
+    exit();
 }
 
-// Retrieve the modlist from the database
 $sql = "SELECT * FROM modlist ORDER BY id ASC";
 $result = $conn->query($sql);
 
