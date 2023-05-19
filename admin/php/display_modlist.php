@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Dotenv\Dotenv;
@@ -112,6 +111,7 @@ if ($result->num_rows > 0) {
             $fileSizeMB = round($fileSizeBytes / (1024 * 1024), 2);
 
             // Output the checkbox, mod title, and other mod details
+
             echo "<td><a href='https://steamcommunity.com/sharedfiles/filedetails/?id=$modID' class='link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' target='_blank'>$modTitle</a></td>";
             echo "<td>$fileSizeMB MB</td>";
         } else {
@@ -138,7 +138,7 @@ if ($result->num_rows > 0) {
     echo '</tbody>';
     echo '</table>';
 
-    echo '<button type="submit" class="btn btn-primary">Submit</button>'; // Change to submit button
+    echo '<button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>'; // Change to regular button
 
     // Add the input form for adding new Steam Workshop items
     echo '
@@ -149,49 +149,27 @@ if ($result->num_rows > 0) {
     ';
 
     echo '</form>'; // End the form
-}
-
-// Handle form submission and new item addition
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $requiredMods = isset($_POST['mod_required']) ? $_POST['mod_required'] : [];
-
-    // Reset all mod_required values to 0
-    $resetSql = "UPDATE modlist SET mod_required = 0";
-    $conn->query($resetSql);
-
-    // Update mod_required status for selected mods
-    foreach ($requiredMods as $modID) {
-        $required = in_array($modID, $requiredMods) ? 1 : 0;
-        updateModRequiredStatus($modID, $required);
-    }
-
-    $deleteMods = isset($_POST['delete_mod']) ? $_POST['delete_mod'] : [];
-
-    // Delete the selected mods from the database
-    $deleteSql = "DELETE FROM modlist WHERE mod_id IN ('" . implode("','", $deleteMods) . "')";
-    $conn->query($deleteSql);
-
-    // Add new item if provided
-    $newItem = isset($_POST['new_item']) ? trim($_POST['new_item']) : '';
-    if (!empty($newItem)) {
-        // Extract ID from link if provided
-        if (strpos($newItem, 'steamcommunity.com/sharedfiles/filedetails/?id=') !== false) {
-            $url = parse_url($newItem);
-            parse_str($url['query'], $query);
-            if (isset($query['id'])) {
-                $newItem = $query['id'];
-            }
-        }
-
-        // Add the new item
-        $insertSql = "INSERT INTO modlist (mod_id, mod_required) VALUES ('$newItem', 0)";
-        $conn->query($insertSql);
-    }
-
-    // Redirect to refresh the page after submitting
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit();
+} else {
+    echo "No mods found.";
 }
 
 $conn->close();
 ?>
+
+<script>
+    function submitForm() {
+        var form = document.getElementById('modForm');
+        var formData = new FormData(form);
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', window.location.href);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                // Reload the mod list content only
+                var modList = document.getElementById('modList');
+                modList.innerHTML = xhr.responseText;
+            }
+        };
+        xhr.send(formData);
+    }
+</script>
