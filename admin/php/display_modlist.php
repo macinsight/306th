@@ -127,17 +127,10 @@ if ($result->num_rows > 0) {
             $fileSizeMB = round($fileSizeBytes / (1024 * 1024), 2);
 
             // Output the checkbox, mod title, and other mod details
-            echo "<td>";
-            echo "<div class='form-check'>";
-            echo "<input class='form-check-input' type='checkbox' id='checkbox_$modID' name='delete_mod[]' value='$modID'>";
-            echo "<label class='form-check-label' for='checkbox_$modID'></label>";
-            echo "</div>";
-            echo "</td>";
             echo "<td><a href='https://steamcommunity.com/sharedfiles/filedetails/?id=$modID' class='link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' target='_blank'>$modTitle</a></td>";
             echo "<td>$fileSizeMB MB</td>";
         } else {
             // Output "N/A" if mod details are not available
-            echo "<td></td>";
             echo "<td>N/A</td>";
             echo "<td>N/A</td>";
         }
@@ -148,6 +141,12 @@ if ($result->num_rows > 0) {
         echo "<label class='form-check-label' for='switch_$modID'>Required</label>";
         echo "</div>";
         echo "</td>";
+        echo "<td>";
+        echo "<div class='form-check'>";
+        echo "<input class='form-check-input' type='checkbox' id='checkbox_$modID' name='delete_mod[]' value='$modID'>";
+        echo "<label class='form-check-label' for='checkbox_$modID'></label>";
+        echo "</div>";
+        echo "</td>";
         echo "</tr>";
     }
     echo '</tbody>';
@@ -156,8 +155,6 @@ if ($result->num_rows > 0) {
     echo '<button type="submit" class="btn btn-primary">Submit</button>'; // Add the submit button
 
     echo '</form>'; // End the form
-
-    
 
     // Handle form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -184,5 +181,4 @@ if ($result->num_rows > 0) {
 } else {
     echo "<p>No Mods found.</p>";
 }
-
 ?>
