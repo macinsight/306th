@@ -54,6 +54,30 @@ function retrieveAPIResponseFromCache($cacheFile, $cacheDuration)
     return false;
 }
 
+// Function to update the "required" status of mods in the database
+function updateModRequiredStatus($modID, $required)
+{
+    global $conn;
+    
+    // Prepare the update statement
+    $stmt = $conn->prepare("UPDATE modlist SET mod_required = ? WHERE mod_id = ?");
+    $stmt->bind_param("ii", $required, $modID);
+    
+    // Execute the update statement
+    $stmt->execute();
+    
+    // Close the statement
+    $stmt->close();
+}
+
+// Check if the form is submitted
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mod_required'])) {
+    // Iterate over the submitted mod IDs and update their "required" status
+    foreach ($_POST['mod_required'] as $modID => $required) {
+        updateModRequiredStatus($modID, $required);
+    }
+}
+
 // Query to fetch mod data
 $sql = "SELECT * FROM modlist ORDER BY id ASC";
 $result = $conn->query($sql);
@@ -66,6 +90,7 @@ $totalFileSize = 0;
 
 // Generate HTML dynamically
 if ($result->num_rows > 0) {
+    echo '<form method="post">';
     echo '<table class="table table-hover">';
     echo '<thead><tr><th>Mod Name</th><th>File Size (MB)</th><th>Required?</th></tr></thead>';
     echo '<tbody>';
@@ -116,7 +141,7 @@ if ($result->num_rows > 0) {
 
         echo "<td>";
         echo "<div class='form-check form-switch'>";
-        echo "<input class='form-check-input' type='checkbox' role='switch' id='switch_$modID'" . ($row['mod_required'] == 1 ? ' checked' : '') . ">";
+        echo "<input class='form-check-input' type='checkbox' name='mod_required[$modID]' role='switch' id='switch_$modID'" . ($row['mod_required'] == 1 ? ' checked' : '') . ">";
         echo "<label class='form-check-label' for='switch_$modID'>Required</label>";
         echo "</div>";
         echo "<td>";
@@ -127,6 +152,11 @@ if ($result->num_rows > 0) {
 
     // Display the total file size
     echo "<p>Total File Size: $totalFileSize MB</p>";
+
+    // Add submit button
+    echo '<button type="submit" class="btn btn-primary">Submit</button>';
+
+    echo '</form>';
 } else {
     echo "<p>No Mods found.</p>";
 }
