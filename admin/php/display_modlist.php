@@ -150,41 +150,47 @@ if ($result->num_rows > 0) {
 
     echo '</form>'; // End the form
 
-    // Handle form submission and new item addition
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $requiredMods = isset($_POST['mod_required']) ? $_POST['mod_required'] : [];
+// Handle form submission and new item addition
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $requiredMods = isset($_POST['mod_required']) ? $_POST['mod_required'] : [];
 
-        foreach ($requiredMods as $modID) {
-            $required = in_array($modID, $requiredMods) ? 1 : 0;
-            updateModRequiredStatus($modID, $required);
-        }
+    // Reset all mod_required values to 0
+    $resetSql = "UPDATE modlist SET mod_required = 0";
+    $conn->query($resetSql);
 
-        $deleteMods = isset($_POST['delete_mod']) ? $_POST['delete_mod'] : [];
+    // Update mod_required status for selected mods
+    foreach ($requiredMods as $modID) {
+        $required = in_array($modID, $requiredMods) ? 1 : 0;
+        updateModRequiredStatus($modID, $required);
+    }
 
-        // Prepare the record for deletion
-        $deleteSql = "UPDATE modlist SET to_be_deleted = 1 WHERE mod_id IN ('" . implode("','", $deleteMods) . "')";
-        $conn->query($deleteSql);
+    $deleteMods = isset($_POST['delete_mod']) ? $_POST['delete_mod'] : [];
 
-        // Add new item if provided
-        $newItem = isset($_POST['new_item']) ? trim($_POST['new_item']) : '';
-        if (!empty($newItem)) {
-            // Extract ID from link if provided
-            if (strpos($newItem, 'steamcommunity.com/sharedfiles/filedetails/?id=') !== false) {
-                $url = parse_url($newItem);
-                parse_str($url['query'], $query);
-                if (isset($query['id'])) {
-                    $newItem = $query['id'];
-                }
+    // Delete the selected mods from the database
+    $deleteSql = "DELETE FROM modlist WHERE mod_id IN ('" . implode("','", $deleteMods) . "')";
+    $conn->query($deleteSql);
+
+    // Add new item if provided
+    $newItem = isset($_POST['new_item']) ? trim($_POST['new_item']) : '';
+    if (!empty($newItem)) {
+        // Extract ID from link if provided
+        if (strpos($newItem, 'steamcommunity.com/sharedfiles/filedetails/?id=') !== false) {
+            $url = parse_url($newItem);
+            parse_str($url['query'], $query);
+            if (isset($query['id'])) {
+                $newItem = $query['id'];
             }
-
-            // Add the new item
-            $insertSql = "INSERT INTO modlist (mod_id, mod_required) VALUES ('$newItem', 0)";
-            $conn->query($insertSql);
         }
 
-        // Redirect to refresh the page after submitting
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit();
+        // Add the new item
+        $insertSql = "INSERT INTO modlist (mod_id, mod_required) VALUES ('$newItem', 0)";
+        $conn->query($insertSql);
+    }
+
+    // Redirect to refresh the page after submitting
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit();
+}
     }
 } else {
     echo "No mods found.";
