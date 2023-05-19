@@ -54,28 +54,15 @@ function retrieveAPIResponseFromCache($cacheFile, $cacheDuration)
     return false;
 }
 
-// Function to update the "required" status of mods in the database
+// Function to update the required status for a specific mod
 function updateModRequiredStatus($modID, $required)
 {
     global $conn;
-    
-    // Prepare the update statement
-    $stmt = $conn->prepare("UPDATE modlist SET mod_required = ? WHERE mod_id = ?");
-    $stmt->bind_param("ii", $required, $modID);
-    
-    // Execute the update statement
-    $stmt->execute();
-    
-    // Close the statement
-    $stmt->close();
-}
 
-// Check if the form is submitted
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mod_required'])) {
-    // Iterate over the submitted mod IDs and update their "required" status
-    foreach ($_POST['mod_required'] as $modID => $required) {
-        updateModRequiredStatus($modID, $required);
-    }
+    $sql = "UPDATE modlist SET mod_required = '$required' WHERE mod_id = '$modID'";
+    $result = $conn->query($sql);
+
+    return $result;
 }
 
 // Query to fetch mod data
@@ -85,12 +72,10 @@ $result = $conn->query($sql);
 // Cache duration in seconds (1 day)
 $cacheDuration = 86400;
 
-// Variable to store the total file size
-$totalFileSize = 0;
-
 // Generate HTML dynamically
 if ($result->num_rows > 0) {
-    echo '<form method="post">';
+    echo '<form method="POST">'; // Start the form
+
     echo '<table class="table table-hover">';
     echo '<thead><tr><th>Mod Name</th><th>File Size (MB)</th><th>Required?</th></tr></thead>';
     echo '<tbody>';
@@ -127,9 +112,6 @@ if ($result->num_rows > 0) {
             $fileSizeBytes = isset($fileDetails['file_size']) ? $fileDetails['file_size'] : 0;
             $fileSizeMB = round($fileSizeBytes / (1024 * 1024), 2);
 
-            // Increment the total file size
-            $totalFileSize += $fileSizeMB;
-
             // Output the link with the mod title
             echo "<td><a href='https://steamcommunity.com/sharedfiles/filedetails/?id=$modID' class='link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' target='_blank'>$modTitle</a></td>";
             echo "<td>$fileSizeMB MB</td>";
@@ -141,26 +123,36 @@ if ($result->num_rows > 0) {
 
         echo "<td>";
         echo "<div class='form-check form-switch'>";
-        echo "<input class='form-check-input' type='checkbox' name='mod_required[$modID]' role='switch' id='switch_$modID'" . ($row['mod_required'] == 1 ? ' checked' : '') . ">";
+        echo "<input class='form-check-input' type='checkbox' role='switch' id='switch_$modID' name='mod_required[]' value='$modID'" . ($row['mod_required'] == 1 ? ' checked' : '') . ">";
         echo "<label class='form-check-label' for='switch_$modID'>Required</label>";
         echo "</div>";
-        echo "<td>";
+        echo "</td>";
         echo "</tr>";
     }
     echo '</tbody>';
     echo '</table>';
 
-    // Display the total file size
-    echo "<p>Total File Size: $totalFileSize MB</p>";
+    echo '<button type="submit" class="btn btn-primary">Submit</button>'; // Add the submit button
 
-    // Add submit button
-    echo '<button type="submit" class="btn btn-primary">Submit</button>';
+    echo '</form>'; // End the form
 
-    echo '</form>';
+    // Handle form submission
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $requiredMods = isset($_POST['mod_required']) ? $_POST['mod_required'] : [];
+
+        foreach ($requiredMods as $modID) {
+            $required = in_array($modID, $requiredMods) ? 1 : 0;
+            updateModRequiredStatus($modID, $required);
+        }
+
+        // Refresh the page after updating the database
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit();
+    }
+    
+    // Close the database connection
+    $conn->close();
 } else {
     echo "<p>No Mods found.</p>";
 }
-
-// Close the database connection
-$conn->close();
 ?>
