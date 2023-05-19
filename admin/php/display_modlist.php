@@ -149,7 +149,7 @@ if ($result->num_rows > 0) {
         header('Location: ' . $_SERVER['PHP_SELF']);
         exit();
     }
-    
+
     // Close the database connection
     $conn->close();
 } else {
