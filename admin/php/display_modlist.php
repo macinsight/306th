@@ -65,6 +65,8 @@ function updateModRequiredStatus($modID, $required)
     return $result;
 }
 
+
+
 $sql = "SELECT * FROM modlist ORDER BY id ASC";
 $result = $conn->query($sql);
 
@@ -174,18 +176,9 @@ if ($result->num_rows > 0) {
     // JavaScript function to handle form submission and new item addition
     echo '
     <script>
-    document.getElementById("submitBtn").addEventListener("click", function() {
-        var deleteMods = document.querySelectorAll(\'input[name="delete_mod[]"]:checked\');
-        if (deleteMods.length > 0) {
-            $(\'#confirmationModal\').modal(\'show\');
-        } else {
+        document.getElementById("deleteButton").addEventListener("click", function() {
             document.getElementById("modForm").submit();
-        }
-    });
-
-    document.getElementById("deleteButton").addEventListener("click", function() {
-        document.getElementById("modForm").submit();
-    });
+        });
 
         document.getElementById("newItemInput").addEventListener("change", function() {
             var newItem = this.value.trim();
@@ -215,38 +208,39 @@ if ($result->num_rows > 0) {
     ';
 
     // Handle form submission and new item addition
-    if ($_SERVER[\'REQUEST_METHOD\'] === \'POST\') {
-        $requiredMods = isset($_POST[\'mod_required\']) ? $_POST[\'mod_required\'] : [];
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $requiredMods = isset($_POST['mod_required']) ? $_POST['mod_required'] : [];
 
         foreach ($requiredMods as $modID) {
             $required = in_array($modID, $requiredMods) ? 1 : 0;
             updateModRequiredStatus($modID, $required);
         }
-        $deleteMods = isset($_POST[\'delete_mod\']) ? $_POST[\'delete_mod\'] : [];
 
-        // Delete the selected mods from the database
-        $deleteSql = "DELETE FROM modlist WHERE mod_id IN (\'" . implode("\',\'", $deleteMods) . "\')";
+        $deleteMods = isset($_POST['delete_mod']) ? $_POST['delete_mod'] : [];
+
+        // Prepare the record for deletion
+        $deleteSql = "UPDATE modlist SET to_be_deleted = 1 WHERE mod_id IN ('" . implode("','", $deleteMods) . "')";
         $conn->query($deleteSql);
 
         // Add new item if provided
-        $newItem = isset($_POST[\'new_item\']) ? trim($_POST[\'new_item\']) : \'\';
+        $newItem = isset($_POST['new_item']) ? trim($_POST['new_item']) : '';
         if (!empty($newItem)) {
             // Extract ID from link if provided
-            if (strpos($newItem, \'steamcommunity.com/sharedfiles/filedetails/?id=\') !== false) {
+            if (strpos($newItem, 'steamcommunity.com/sharedfiles/filedetails/?id=') !== false) {
                 $url = parse_url($newItem);
-                parse_str($url[\'query\'], $query);
-                if (isset($query[\'id\'])) {
-                    $newItem = $query[\'id\'];
+                parse_str($url['query'], $query);
+                if (isset($query['id'])) {
+                    $newItem = $query['id'];
                 }
             }
 
             // Add the new item
-            $insertSql = "INSERT INTO modlist (mod_id, mod_required) VALUES (\'$newItem\', 0)";
+            $insertSql = "INSERT INTO modlist (mod_id, mod_required) VALUES ('$newItem', 0)";
             $conn->query($insertSql);
         }
 
         // Redirect to refresh the page after submitting
-        header("Location: " . $_SERVER[\'PHP_SELF\']);
+        header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     }
 } else {
@@ -254,17 +248,3 @@ if ($result->num_rows > 0) {
 }
 
 $conn->close();
-
-?>
-
-<div class="container" id="footer">
-    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-        <p class="col-md-4 mb-0 text-muted">© 2023 Company, Inc</p>
-
-        <ul class="nav col-md-4 justify-content-end">
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Terms</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Privacy</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Contact</a></li>
-        </ul>
-    </footer>
-</div>
