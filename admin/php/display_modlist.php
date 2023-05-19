@@ -65,18 +65,6 @@ function updateModRequiredStatus($modID, $required)
     return $result;
 }
 
-// Query to fetch mod data
-$totalModsQuery = "SELECT COUNT(*) as total FROM modlist";
-$totalModsResult = $conn->query($totalModsQuery);
-$totalMods = $totalModsResult->fetch_assoc()['total'];
-
-$modsPerPage = 25;
-$totalPages = ceil($totalMods / $modsPerPage);
-
-// Determine the current page
-$page = isset($_GET['page']) ? $_GET['page'] : 1;
-$page = max(1, min($page, $totalPages));
-
 // Calculate the offset for the SQL query
 $offset = ($page - 1) * $modsPerPage;
 
@@ -88,7 +76,7 @@ $cacheDuration = 86400;
 
 // Generate HTML dynamically
 if ($result->num_rows > 0) {
-    echo '<form method="POST">'; // Start the form
+    echo '<form method="POST" id="modForm">'; // Start the form
 
     echo '<table class="table table-hover">';
     echo '<thead><tr><th>Mod Name</th><th>File Size (MB)</th><th>Required?</th><th>Delete?</th></tr></thead>';
@@ -127,10 +115,17 @@ if ($result->num_rows > 0) {
             $fileSizeMB = round($fileSizeBytes / (1024 * 1024), 2);
 
             // Output the checkbox, mod title, and other mod details
+            echo "<td>";
+            echo "<div class='form-check'>";
+            echo "<input class='form-check-input' type='checkbox' id='checkbox_$modID' name='delete_mod[]' value='$modID'>";
+            echo "<label class='form-check-label' for='checkbox_$modID'></label>";
+            echo "</div>";
+            echo "</td>";
             echo "<td><a href='https://steamcommunity.com/sharedfiles/filedetails/?id=$modID' class='link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' target='_blank'>$modTitle</a></td>";
             echo "<td>$fileSizeMB MB</td>";
         } else {
             // Output "N/A" if mod details are not available
+            echo "<td></td>";
             echo "<td>N/A</td>";
             echo "<td>N/A</td>";
         }
@@ -141,20 +136,35 @@ if ($result->num_rows > 0) {
         echo "<label class='form-check-label' for='switch_$modID'>Required</label>";
         echo "</div>";
         echo "</td>";
-        echo "<td>";
-        echo "<div class='form-check'>";
-        echo "<input class='form-check-input' type='checkbox' id='checkbox_$modID' name='delete_mod[]' value='$modID'>";
-        echo "<label class='form-check-label' for='checkbox_$modID'></label>";
-        echo "</div>";
-        echo "</td>";
         echo "</tr>";
     }
     echo '</tbody>';
     echo '</table>';
 
-    echo '<button type="submit" class="btn btn-primary">Submit</button>'; // Add the submit button
+    echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmationModal">Submit</button>'; // Add the submit button
 
     echo '</form>'; // End the form
+
+    // Confirmation Modal
+    echo '
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete the selected mods?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    ';
 
     // Handle form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -181,4 +191,3 @@ if ($result->num_rows > 0) {
 } else {
     echo "<p>No Mods found.</p>";
 }
-?>
