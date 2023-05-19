@@ -155,6 +155,13 @@
 		</nav>
 	</div>
 
+	<div class="container">
+		<?php
+		// Include the PHP file
+		include "php/display_modlist.php";
+		?>
+	</div>
+
 	<div class="container" id="footer">
 		<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
 			<p class="col-md-4 mb-0 text-body-secondary">&copy; 2023 macinsight <a href="//github.com/macinsight"><span
@@ -172,12 +179,7 @@
 			</ul>
 		</footer>
 	</div>
-	<div class="container">
-		<?php
-		// Include the PHP file
-		include "php/display_modlist.php";
-		?>
-	</div>
+	
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
