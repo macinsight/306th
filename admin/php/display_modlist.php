@@ -66,7 +66,21 @@ function updateModRequiredStatus($modID, $required)
 }
 
 // Query to fetch mod data
-$sql = "SELECT * FROM modlist ORDER BY id ASC";
+$totalModsQuery = "SELECT COUNT(*) as total FROM modlist";
+$totalModsResult = $conn->query($totalModsQuery);
+$totalMods = $totalModsResult->fetch_assoc()['total'];
+
+$modsPerPage = 25;
+$totalPages = ceil($totalMods / $modsPerPage);
+
+// Determine the current page
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$page = max(1, min($page, $totalPages));
+
+// Calculate the offset for the SQL query
+$offset = ($page - 1) * $modsPerPage;
+
+$sql = "SELECT * FROM modlist ORDER BY id ASC LIMIT $offset, $modsPerPage";
 $result = $conn->query($sql);
 
 // Cache duration in seconds (1 day)
@@ -77,7 +91,7 @@ if ($result->num_rows > 0) {
     echo '<form method="POST">'; // Start the form
 
     echo '<table class="table table-hover">';
-    echo '<thead><tr><th>Delete</th><th>Mod Name</th><th>File Size (MB)</th><th>Required?</th></tr></thead>';
+    echo '<thead><tr><th>Mod Name</th><th>File Size (MB)</th><th>Required?</th><th>Delete?</th></tr></thead>';
     echo '<tbody>';
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
@@ -142,6 +156,16 @@ if ($result->num_rows > 0) {
     echo '<button type="submit" class="btn btn-primary">Submit</button>'; // Add the submit button
 
     echo '</form>'; // End the form
+
+    // Pagination links
+    echo '<ul class="pagination">';
+    if ($totalPages > 1) {
+        for ($i = 1; $i <= $totalPages; $i++) {
+            $active = ($i == $page) ? 'active' : '';
+            echo "<li class='page-item $active'><a class='page-link' href='?page=$i'>$i</a></li>";
+        }
+    }
+    echo '</ul>';
 
     // Handle form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
