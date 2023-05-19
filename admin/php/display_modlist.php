@@ -65,45 +65,35 @@ function updateModRequiredStatus($modID, $required)
     return $result;
 }
 
-// Function to delete a specific mod record
-function deleteModRecord($modID)
-{
-    global $conn;
-
-    $sql = "DELETE FROM modlist WHERE mod_id = '$modID'";
-    $result = $conn->query($sql);
-
-    return $result;
-}
-
 // Query to fetch mod data
-$sql = "SELECT * FROM modlist ORDER BY id ASC";
+$totalModsQuery = "SELECT COUNT(*) as total FROM modlist";
+$totalModsResult = $conn->query($totalModsQuery);
+$totalMods = $totalModsResult->fetch_assoc()['total'];
+
+$modsPerPage = 25;
+$totalPages = ceil($totalMods / $modsPerPage);
+
+// Determine the current page
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$page = max(1, min($page, $totalPages));
+
+// Calculate the offset for the SQL query
+$offset = ($page - 1) * $modsPerPage;
+
+$sql = "SELECT * FROM modlist ORDER BY id ASC LIMIT $offset, $modsPerPage";
 $result = $conn->query($sql);
-
-// Pagination settings
-$entriesPerPage = 25;
-$totalEntries = $result->num_rows;
-$totalPages = ceil($totalEntries / $entriesPerPage);
-$currentPage = isset($_GET['page']) ? $_GET['page'] : 1;
-
-// Calculate the offset for database query
-$offset = ($currentPage - 1) * $entriesPerPage;
-
-// Query to fetch mod data for the current page
-$sqlPage = "SELECT * FROM modlist ORDER BY id ASC LIMIT $offset, $entriesPerPage";
-$resultPage = $conn->query($sqlPage);
 
 // Cache duration in seconds (1 day)
 $cacheDuration = 86400;
 
 // Generate HTML dynamically
-if ($resultPage->num_rows > 0) {
+if ($result->num_rows > 0) {
     echo '<form method="POST">'; // Start the form
 
     echo '<table class="table table-hover">';
     echo '<thead><tr><th>Mod Name</th><th>File Size (MB)</th><th>Required?</th><th>Delete?</th></tr></thead>';
     echo '<tbody>';
-    while ($row = $resultPage->fetch_assoc()) {
+    while ($row = $result->fetch_assoc()) {
         echo "<tr>";
         $modID = $row['mod_id'];
 
@@ -136,66 +126,38 @@ if ($resultPage->num_rows > 0) {
             $fileSizeBytes = isset($fileDetails['file_size']) ? $fileDetails['file_size'] : 0;
             $fileSizeMB = round($fileSizeBytes / (1024 * 1024), 2);
 
-            // Output the link with the mod title
+            // Output the checkbox, mod title, and other mod details
+            echo "<td>";
+            echo "<div class='form-check'>";
+            echo "<input class='form-check-input' type='checkbox' id='checkbox_$modID' name='delete_mod[]' value='$modID'>";
+            echo "<label class='form-check-label' for='checkbox_$modID'></label>";
+            echo "</div>";
+            echo "</td>";
             echo "<td><a href='https://steamcommunity.com/sharedfiles/filedetails/?id=$modID' class='link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' target='_blank'>$modTitle</a></td>";
             echo "<td>$fileSizeMB MB</td>";
-            echo "<td><input type='checkbox' name='mod_required[]' value='$modID'></td>";
-            echo "<td><input type='checkbox' name='mod_delete[]' value='$modID'></td>";
         } else {
             // Output "N/A" if mod details are not available
-            echo "<td>N/A</td>";
+            echo "<td></td>";
             echo "<td>N/A</td>";
             echo "<td>N/A</td>";
         }
+
+        echo "<td>";
+        echo "<div class='form-check form-switch'>";
+        echo "<input class='form-check-input' type='checkbox' role='switch' id='switch_$modID' name='mod_required[]' value='$modID'" . ($row['mod_required'] == 1 ? ' checked' : '') . ">";
+        echo "<label class='form-check-label' for='switch_$modID'>Required</label>";
+        echo "</div>";
+        echo "</td>";
         echo "</tr>";
     }
     echo '</tbody>';
     echo '</table>';
 
-    echo '<div class="d-flex justify-content-between">'; // Start the container for Submit and Pagination
-
     echo '<button type="submit" class="btn btn-primary">Submit</button>'; // Add the submit button
 
-    echo '<nav aria-label="Page navigation example">'; // Start the pagination element
-    echo '<ul class="pagination">';
-
-    // Previous page button
-    echo '<li class="page-item ';
-    if ($currentPage == 1) {
-        echo 'disabled';
-    }
-    echo '">';
-    echo '<a class="page-link" href="?page=' . ($currentPage - 1) . '" aria-label="Previous">';
-    echo '<span aria-hidden="true">&laquo;</span>';
-    echo '</a>';
-    echo '</li>';
-
-    // Page numbers
-    for ($page = 1; $page <= $totalPages; $page++) {
-        echo '<li class="page-item';
-        if ($page == $currentPage) {
-            echo ' active';
-        }
-        echo '"><a class="page-link" href="?page=' . $page . '">' . $page . '</a></li>';
-    }
-
-    // Next page button
-    echo '<li class="page-item ';
-    if ($currentPage == $totalPages) {
-        echo 'disabled';
-    }
-    echo '">';
-    echo '<a class="page-link" href="?page=' . ($currentPage + 1) . '" aria-label="Next">';
-    echo '<span aria-hidden="true">&raquo;</span>';
-    echo '</a>';
-    echo '</li>';
-
-    echo '</ul>';
-    echo '</nav>'; // End the pagination element
-
-    echo '</div>'; // End the container for Submit and Pagination
-
     echo '</form>'; // End the form
+
+    
 
     // Handle form submission
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -206,14 +168,14 @@ if ($resultPage->num_rows > 0) {
             updateModRequiredStatus($modID, $required);
         }
 
-        $deleteMods = isset($_POST['mod_delete']) ? $_POST['mod_delete'] : [];
+        $deleteMods = isset($_POST['delete_mod']) ? $_POST['delete_mod'] : [];
 
-        foreach ($deleteMods as $modID) {
-            deleteModRecord($modID);
-        }
+        // Prepare the record for deletion
+        $deleteSql = "UPDATE modlist SET to_be_deleted = 1 WHERE mod_id IN ('" . implode("','", $deleteMods) . "')";
+        $conn->query($deleteSql);
 
         // Refresh the page after updating the database
-        header('Location: ' . $_SERVER['PHP_SELF'] . '?page=' . $currentPage);
+        header('Location: ' . $_SERVER['PHP_SELF']);
         exit();
     }
 
@@ -222,4 +184,5 @@ if ($resultPage->num_rows > 0) {
 } else {
     echo "<p>No Mods found.</p>";
 }
+
 ?>
