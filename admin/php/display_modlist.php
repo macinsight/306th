@@ -73,7 +73,6 @@ $result = $conn->query($sql);
 // Cache duration in seconds (1 day)
 $cacheDuration = 86400;
 
-// Generate HTML programmatically
 if ($result->num_rows > 0) {
     echo '<form method="POST" id="modForm">'; // Start the form
 
@@ -114,6 +113,7 @@ if ($result->num_rows > 0) {
             $fileSizeMB = round($fileSizeBytes / (1024 * 1024), 2);
 
             // Output the checkbox, mod title, and other mod details
+
             echo "<td><a href='https://steamcommunity.com/sharedfiles/filedetails/?id=$modID' class='link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' target='_blank'>$modTitle</a></td>";
             echo "<td>$fileSizeMB MB</td>";
         } else {
@@ -142,6 +142,14 @@ if ($result->num_rows > 0) {
 
     echo '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmationModal">Submit</button>'; // Add the submit button
 
+    // Add the input form for adding new Steam Workshop items
+    echo '
+    <div class="mb-3">
+        <label for="newItemInput" class="form-label">Add New Item</label>
+        <input type="text" class="form-control" id="newItemInput" name="new_item" placeholder="Enter ID or Link">
+    </div>
+    ';
+
     echo '</form>'; // End the form
 
     // Confirmation Modal
@@ -165,16 +173,41 @@ if ($result->num_rows > 0) {
     </div>
     ';
 
-    // JavaScript function to handle form submission
+    // JavaScript function to handle form submission and new item addition
     echo '
     <script>
         document.getElementById("deleteButton").addEventListener("click", function() {
             document.getElementById("modForm").submit();
         });
+
+        document.getElementById("newItemInput").addEventListener("change", function() {
+            var newItem = this.value.trim();
+
+            // Extract ID from link if provided
+            if (newItem.includes("steamcommunity.com/sharedfiles/filedetails/?id=")) {
+                var url = new URL(newItem);
+                var idParam = url.searchParams.get("id");
+                newItem = idParam;
+            }
+
+            // Validate and add the new item
+            if (newItem.length > 0) {
+                var newItemOption = document.createElement("option");
+                newItemOption.value = newItem;
+                newItemOption.selected = true;
+                newItemOption.text = newItem;
+
+                var selectElement = document.getElementById("newItemSelect");
+                selectElement.appendChild(newItemOption);
+            }
+
+            // Reset the input field
+            this.value = "";
+        });
     </script>
     ';
 
-    // Handle form submission
+    // Handle form submission and new item addition
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $requiredMods = isset($_POST['mod_required']) ? $_POST['mod_required'] : [];
 
@@ -189,13 +222,29 @@ if ($result->num_rows > 0) {
         $deleteSql = "UPDATE modlist SET to_be_deleted = 1 WHERE mod_id IN ('" . implode("','", $deleteMods) . "')";
         $conn->query($deleteSql);
 
-        // Refresh the page after updating the database
-        header('Location: ' . $_SERVER['PHP_SELF']);
+        // Add new item if provided
+        $newItem = isset($_POST['new_item']) ? trim($_POST['new_item']) : '';
+        if (!empty($newItem)) {
+            // Extract ID from link if provided
+            if (strpos($newItem, 'steamcommunity.com/sharedfiles/filedetails/?id=') !== false) {
+                $url = parse_url($newItem);
+                parse_str($url['query'], $query);
+                if (isset($query['id'])) {
+                    $newItem = $query['id'];
+                }
+            }
+
+            // Add the new item
+            $insertSql = "INSERT INTO modlist (mod_id, mod_required) VALUES ('$newItem', 0)";
+            $conn->query($insertSql);
+        }
+
+        // Redirect to refresh the page after submitting
+        header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     }
-
-    // Close the database connection
-    $conn->close();
 } else {
-    echo "<p>No Mods found.</p>";
+    echo "No mods found.";
 }
+
+$conn->close();
