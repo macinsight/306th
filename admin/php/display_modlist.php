@@ -213,11 +213,10 @@ if ($result->num_rows > 0) {
             $required = in_array($modID, $requiredMods) ? 1 : 0;
             updateModRequiredStatus($modID, $required);
         }
-
         $deleteMods = isset($_POST['delete_mod']) ? $_POST['delete_mod'] : [];
 
-        // Prepare the record for deletion
-        $deleteSql = "UPDATE modlist SET to_be_deleted = 1 WHERE mod_id IN ('" . implode("','", $deleteMods) . "')";
+        // Delete the selected mods from the database
+        $deleteSql = "DELETE FROM modlist WHERE mod_id IN ('" . implode("','", $deleteMods) . "')";
         $conn->query($deleteSql);
 
         // Add new item if provided
