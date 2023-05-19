@@ -155,12 +155,29 @@
 		</nav>
 	</div>
 
+	<div class="container" id="footer">
+		<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+			<p class="col-md-4 mb-0 text-body-secondary">&copy; 2023 macinsight <a href="//github.com/macinsight"><span
+						class="bi-github"></span></a>
+			</p>
+			<ul class="nav col-md-5 justify-content-end">
+				<a href="#images" class="nav-item nav-link px-2 text-body-secondary">Gallery</a>
+				<a href="#about" class="nav-item nav-link px-2 text-body-secondary">About</a>
+				<a href="#units" class="nav-item nav-link px-2 text-body-secondary">Units</a>
+				<a href="" class="nav-item nav-link px-2 text-body-secondary">Discord</a>
+				<li class="nav-item"><a href="imprint.html" class="nav-link px-2 text-body-secondary">Imprint</a></li>
+				<a href="//units.arma3.com/unit/306thbrigade" class="nav-item nav-link px-2 text-body-secondary">306th
+					AB on A3
+					Units</a>
+			</ul>
+		</footer>
+	</div>
 	<div class="container">
-	<?php
-    // Include the PHP file
-    include "php/display_modlist.php";
-    ?>
-</div>
+		<?php
+		// Include the PHP file
+		include "php/display_modlist.php";
+		?>
+	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
