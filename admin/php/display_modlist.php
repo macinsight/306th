@@ -115,13 +115,6 @@ if ($result->num_rows > 0) {
         }
 
         echo "<td>";
-        if ($row['mod_required'] == 1) {
-            echo '<span class="badge rounded-pill text-success text-bg-info">Required</span>';
-        } else {
-            echo '<span class="badge rounded-pill text-secondary">Not Required</span>';
-        }
-        echo "</td>";
-        echo "<td>";
         echo "<div class='form-check form-switch'>";
         echo "<input class='form-check-input' type='checkbox' role='switch' id='switch_$modID'" . ($row['mod_required'] == 1 ? ' checked' : '') . ">";
         echo "<label class='form-check-label' for='switch_$modID'>Required</label>";
