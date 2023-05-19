@@ -2,7 +2,6 @@
 
 require_once 'config.php';
 require_once 'functions.php';
-require_once 'display.php'
 
 $sql = "SELECT * FROM modlist ORDER BY id ASC";
 $result = $conn->query($sql);
