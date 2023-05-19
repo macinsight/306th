@@ -65,10 +65,9 @@ function updateModRequiredStatus($modID, $required)
     return $result;
 }
 
-// Calculate the offset for the SQL query
-$offset = ($page - 1) * $modsPerPage;
 
-$sql = "SELECT * FROM modlist ORDER BY id ASC LIMIT $offset, $modsPerPage";
+
+$sql = "SELECT * FROM modlist ORDER BY id ASC";
 $result = $conn->query($sql);
 
 // Cache duration in seconds (1 day)
