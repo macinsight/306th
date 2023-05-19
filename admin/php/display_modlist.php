@@ -73,7 +73,7 @@ $result = $conn->query($sql);
 // Cache duration in seconds (1 day)
 $cacheDuration = 86400;
 
-// Generate HTML dynamically
+// Generate HTML programmatically
 if ($result->num_rows > 0) {
     echo '<form method="POST" id="modForm">'; // Start the form
 
@@ -158,11 +158,20 @@ if ($result->num_rows > 0) {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-danger" id="deleteButton">Delete</button>
                 </div>
             </div>
         </div>
     </div>
+    ';
+
+    // JavaScript function to handle form submission
+    echo '
+    <script>
+        document.getElementById("deleteButton").addEventListener("click", function() {
+            document.getElementById("modForm").submit();
+        });
+    </script>
     ';
 
     // Handle form submission
