@@ -1,10 +1,10 @@
 <?php
+
 require_once 'config.php';
 require_once 'functions.php';
 
 $sql = "SELECT * FROM modlist ORDER BY id ASC";
 $result = $conn->query($sql);
-
 
 if ($result->num_rows > 0) {
     echo '<form method="POST" id="modForm">'; // Start the form
@@ -12,6 +12,7 @@ if ($result->num_rows > 0) {
     echo '<table class="table table-hover">';
     echo '<thead><tr><th>Mod Name</th><th>File Size (MB)</th><th>Required?</th><th>Delete?</th></tr></thead>';
     echo '<tbody>';
+
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
         $modID = $row['mod_id'];
@@ -68,6 +69,7 @@ if ($result->num_rows > 0) {
         echo "</td>";
         echo "</tr>";
     }
+
     echo '</tbody>';
     echo '</table>';
 

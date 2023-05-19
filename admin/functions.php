@@ -1,4 +1,5 @@
 <?php
+
 // Function to fetch API response and store it in cache
 function fetchAPIResponse($apiUrl, $postData, $cacheFile)
 {
