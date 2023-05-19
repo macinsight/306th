@@ -12,14 +12,6 @@ displayHead();
 	displayThemeSelector();
 	displayNavbar();
 	
-
-	// Check condition and include the corresponding file
-	if ($condition) {
-		include 'modlist.php';
-	} else {
-		include 'path/to/operations.php';
-	}
-
 	displayFooter();
 	?>
 	<script src="indexselector.js"></script>

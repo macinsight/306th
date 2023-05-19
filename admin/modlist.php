@@ -86,6 +86,6 @@ if ($result->num_rows > 0) {
     echo '</form>'; // End the form
 }
 
-displayFooter();
 $conn->close();
+displayFooter();
 ?>
