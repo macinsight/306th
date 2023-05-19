@@ -65,22 +65,19 @@ function updateModRequiredStatus($modID, $required)
     return $result;
 }
 
+// Function to delete a specific mod record
+function deleteModRecord($modID)
+{
+    global $conn;
+
+    $sql = "DELETE FROM modlist WHERE mod_id = '$modID'";
+    $result = $conn->query($sql);
+
+    return $result;
+}
+
 // Query to fetch mod data
-$totalModsQuery = "SELECT COUNT(*) as total FROM modlist";
-$totalModsResult = $conn->query($totalModsQuery);
-$totalMods = $totalModsResult->fetch_assoc()['total'];
-
-$modsPerPage = 25;
-$totalPages = ceil($totalMods / $modsPerPage);
-
-// Determine the current page
-$page = isset($_GET['page']) ? $_GET['page'] : 1;
-$page = max(1, min($page, $totalPages));
-
-// Calculate the offset for the SQL query
-$offset = ($page - 1) * $modsPerPage;
-
-$sql = "SELECT * FROM modlist ORDER BY id ASC LIMIT $offset, $modsPerPage";
+$sql = "SELECT * FROM modlist ORDER BY id ASC";
 $result = $conn->query($sql);
 
 // Cache duration in seconds (1 day)
@@ -89,6 +86,33 @@ $cacheDuration = 86400;
 // Generate HTML dynamically
 if ($result->num_rows > 0) {
     echo '<form method="POST">'; // Start the form
+
+    echo '<div class="d-flex justify-content-between mb-3">'; // Start the container for Submit and Pagination
+    echo '<button type="submit" class="btn btn-primary">Submit</button>'; // Add the submit button
+
+    // Handle form submission
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $requiredMods = isset($_POST['mod_required']) ? $_POST['mod_required'] : [];
+
+        foreach ($requiredMods as $modID) {
+            $required = in_array($modID, $requiredMods) ? 1 : 0;
+            updateModRequiredStatus($modID, $required);
+        }
+
+        // Handle mod record deletion
+        $deleteMods = isset($_POST['mod_delete']) ? $_POST['mod_delete'] : [];
+
+        foreach ($deleteMods as $modID) {
+            deleteModRecord($modID);
+        }
+
+        // Refresh the page after updating the database
+        header('Location: ' . $_SERVER['PHP_SELF']);
+        exit();
+    }
+
+    echo 'Pagination'; // Add the pagination element
+    echo '</div>'; // End the container for Submit and Pagination
 
     echo '<table class="table table-hover">';
     echo '<thead><tr><th>Mod Name</th><th>File Size (MB)</th><th>Required?</th><th>Delete?</th></tr></thead>';
@@ -126,71 +150,26 @@ if ($result->num_rows > 0) {
             $fileSizeBytes = isset($fileDetails['file_size']) ? $fileDetails['file_size'] : 0;
             $fileSizeMB = round($fileSizeBytes / (1024 * 1024), 2);
 
-            // Output the checkbox, mod title, and other mod details
-            echo "<td>";
-            echo "<div class='form-check'>";
-            echo "<input class='form-check-input' type='checkbox' id='checkbox_$modID' name='delete_mod[]' value='$modID'>";
-            echo "<label class='form-check-label' for='checkbox_$modID'></label>";
-            echo "</div>";
-            echo "</td>";
-            echo "<td><a href='https://steamcommunity.com/sharedfiles/filedetails/?id=$modID' class='link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' target='_blank'>$modTitle</a></td>";
+            // Output the link with the mod title
+            echo "<td><input type='checkbox' name='mod_delete[]' value='$modID'> <a href='https://steamcommunity.com/sharedfiles/filedetails/?id=$modID' class='link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' target='_blank'>$modTitle</a></td>";
             echo "<td>$fileSizeMB MB</td>";
+            echo "<td><input type='checkbox' name='mod_required[]' value='$modID'></td>";
         } else {
             // Output "N/A" if mod details are not available
-            echo "<td></td>";
+            echo "<td>N/A</td>";
             echo "<td>N/A</td>";
             echo "<td>N/A</td>";
         }
-
-        echo "<td>";
-        echo "<div class='form-check form-switch'>";
-        echo "<input class='form-check-input' type='checkbox' role='switch' id='switch_$modID' name='mod_required[]' value='$modID'" . ($row['mod_required'] == 1 ? ' checked' : '') . ">";
-        echo "<label class='form-check-label' for='switch_$modID'>Required</label>";
-        echo "</div>";
-        echo "</td>";
         echo "</tr>";
     }
     echo '</tbody>';
     echo '</table>';
 
-    echo '<button type="submit" class="btn btn-primary">Submit</button>'; // Add the submit button
-
     echo '</form>'; // End the form
-
-    // Pagination links
-    echo '<ul class="pagination">';
-    if ($totalPages > 1) {
-        for ($i = 1; $i <= $totalPages; $i++) {
-            $active = ($i == $page) ? 'active' : '';
-            echo "<li class='page-item $active'><a class='page-link' href='?page=$i'>$i</a></li>";
-        }
-    }
-    echo '</ul>';
-
-    // Handle form submission
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $requiredMods = isset($_POST['mod_required']) ? $_POST['mod_required'] : [];
-
-        foreach ($requiredMods as $modID) {
-            $required = in_array($modID, $requiredMods) ? 1 : 0;
-            updateModRequiredStatus($modID, $required);
-        }
-
-        $deleteMods = isset($_POST['delete_mod']) ? $_POST['delete_mod'] : [];
-
-        // Prepare the record for deletion
-        $deleteSql = "UPDATE modlist SET to_be_deleted = 1 WHERE mod_id IN ('" . implode("','", $deleteMods) . "')";
-        $conn->query($deleteSql);
-
-        // Refresh the page after updating the database
-        header('Location: ' . $_SERVER['PHP_SELF']);
-        exit();
-    }
 
     // Close the database connection
     $conn->close();
 } else {
     echo "<p>No Mods found.</p>";
 }
-
 ?>
