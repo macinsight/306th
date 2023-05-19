@@ -13,7 +13,7 @@
             include 'assets/php/database_connection.php';
 
             // Fetch all records from the database
-            $query = "SELECT operation_id, operation_name FROM operations";
+            $query = "SELECT id, operation_name FROM operations";
             $result = mysqli_query($connection, $query);
 
             // Check if there are any records
@@ -29,7 +29,7 @@
                         <tbody>';
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo '<tr>
-                            <td>' . $row['operation_id'] . '</td>
+                            <td>' . $row['id'] . '</td>
                             <td>' . $row['operation_name'] . '</td>
                           </tr>';
                 }
@@ -76,8 +76,8 @@
         <h2>Update Operation</h2>
         <form method="POST" action="assets/php/manage_operations_db.php">
             <div class="form-group">
-                <label for="operation_id">Operation ID:</label>
-                <input type="text" class="form-control" id="operation_id" name="operation_id" required>
+                <label for="id">Operation ID:</label>
+                <input type="text" class="form-control" id="id" name="id" required>
             </div>
 
             <div class="form-group">
@@ -111,8 +111,8 @@
         <h2>Delete Operation</h2>
         <form method="POST" action="assets/php/manage_operations_db.php">
             <div class="form-group">
-                <label for="operation_id">Operation ID:</label>
-                <input type="text" class="form-control" id="operation_id" name="operation_id" required>
+                <label for="id">Operation ID:</label>
+                <input type="text" class="form-control" id="id" name="id" required>
             </div>
 
             <button type="submit" class="btn btn-danger" name="delete">Delete</button>
