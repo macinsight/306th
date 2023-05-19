@@ -69,25 +69,18 @@ function updateModRequiredStatus($modID, $required)
 $sql = "SELECT * FROM modlist ORDER BY id ASC";
 $result = $conn->query($sql);
 
-// Cache duration in seconds (1 day)
 $cacheDuration = 86400;
 
 if ($result->num_rows > 0) {
     echo '<form method="POST" id="modForm">'; // Start the form
-
     echo '<table class="table table-hover">';
     echo '<thead><tr><th>Mod Name</th><th>File Size (MB)</th><th>Required?</th><th>Delete?</th></tr></thead>';
     echo '<tbody>';
     while ($row = $result->fetch_assoc()) {
         echo "<tr>";
         $modID = $row['mod_id'];
-
-        // Define cache file path
         $cacheFile = "cache/$modID.cache";
-
-        // Check if API response is available in cache and not expired
         $response = retrieveAPIResponseFromCache($cacheFile, $cacheDuration);
-
         if (!$response) {
             // Query Steam API for mod details
             $apiUrl = "https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/";
@@ -96,8 +89,6 @@ if ($result->num_rows > 0) {
                 'format' => 'json',
                 'publishedfileids[0]' => $modID
             ]);
-
-            // Fetch API response and store it in cache
             $response = fetchAPIResponse($apiUrl, $postData, $cacheFile);
         }
 
@@ -120,7 +111,6 @@ if ($result->num_rows > 0) {
             echo "<td>N/A</td>";
             echo "<td>N/A</td>";
         }
-
         echo "<td>";
         echo "<div class='form-check form-switch'>";
         echo "<input class='form-check-input' type='checkbox' role='switch' id='switch_$modID' name='mod_required[]' value='$modID'" . ($row['mod_required'] == 1 ? ' checked' : '') . ">";
@@ -137,9 +127,7 @@ if ($result->num_rows > 0) {
     }
     echo '</tbody>';
     echo '</table>';
-
     echo '<button type="submit" class="btn btn-primary">Submit</button>'; // Change to submit button
-
     // Add the input form for adding new Steam Workshop items
     echo '
     <div class="mb-3">
@@ -154,10 +142,6 @@ if ($result->num_rows > 0) {
 // Handle form submission and new item addition
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $requiredMods = isset($_POST['mod_required']) ? $_POST['mod_required'] : [];
-
-    // Reset all mod_required values to 0
-    $resetSql = "UPDATE modlist SET mod_required = 0";
-    $conn->query($resetSql);
 
     // Update mod_required status for selected mods
     foreach ($requiredMods as $modID) {
