@@ -57,3 +57,22 @@ function updateModRequiredStatus($modID, $required)
 
     return $result;
 }
+
+// Function to extract Workshop ID from the URL
+function extractWorkshopID($url) {
+    $pattern = '/(?:https?:\/\/)?steamcommunity\.com\/sharedfiles\/filedetails\/\?id=(\d+)/i';
+    preg_match($pattern, $url, $matches);
+    return isset($matches[1]) ? $matches[1] : $url;
+}
+
+// Function to delete a mod from the database and delete its cache file
+function deleteMod($modID) {
+    global $conn;
+    deleteCacheFile($modID);
+
+    $sql = "DELETE FROM modlist WHERE mod_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $modID);
+    $stmt->execute();
+    $stmt->close();
+}
