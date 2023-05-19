@@ -65,8 +65,6 @@ function updateModRequiredStatus($modID, $required)
     return $result;
 }
 
-
-
 $sql = "SELECT * FROM modlist ORDER BY id ASC";
 $result = $conn->query($sql);
 
@@ -248,3 +246,22 @@ if ($result->num_rows > 0) {
 }
 
 $conn->close();
+
+?>
+
+	<div class="container" id="footer">
+		<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+			<p class="col-md-4 mb-0 text-body-secondary">&copy; 2023 macinsight <a href="//github.com/macinsight"><span
+						class="bi-github"></span></a>
+			</p>
+			<ul class="nav col-md-5 justify-content-end">
+				<a href="#images" class="nav-item nav-link px-2 text-body-secondary">Gallery</a>
+				<a href="#about" class="nav-item nav-link px-2 text-body-secondary">About</a>
+				<a href="#contact" class="nav-item nav-link px-2 text-body-secondary">Contact</a>
+			</ul>
+		</footer>
+	</div>
+
+</body>
+
+</html>
