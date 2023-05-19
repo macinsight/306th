@@ -106,7 +106,7 @@ if ($result->num_rows > 0) {
             $totalFileSize += $fileSizeMB;
 
             // Output the link with the mod title
-            echo "<td><a href='https://steamcommunity.com/sharedfiles/filedetails/?id=$modID' target='_blank'>$modTitle</a></td>";
+            echo "<td><a href='https://steamcommunity.com/sharedfiles/filedetails/?id=$modID' class='link-offset-2 link-offset-2-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover' target='_blank'>$modTitle</a></td>";
             echo "<td>$fileSizeMB MB</td>";
         } else {
             // Output "N/A" if mod details are not available
